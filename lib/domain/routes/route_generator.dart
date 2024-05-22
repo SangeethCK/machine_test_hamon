@@ -18,13 +18,13 @@ class RouteGenerator {
       case student:
         return MaterialPageRoute(builder: (_) => const StudentScreen());
       case subjects:
-        return MaterialPageRoute(builder: (_) => const SubjectScreen());
+        return MaterialPageRoute(builder: (_) => SubjectScreen());
       case classRoom:
         return MaterialPageRoute(builder: (_) => const ClassRoomScreen());
       case registration:
         return MaterialPageRoute(builder: (_) => const RegistrationScreen());
-      case classRoomDetail:
-        return MaterialPageRoute(builder: (_) => const ClassRoomDetailScreen());
+      // case classRoomDetail:
+      //   return MaterialPageRoute(builder: (_) => const ClassRoomDetailScreen());
 
       case studentDetail:
         if (args is Map) {

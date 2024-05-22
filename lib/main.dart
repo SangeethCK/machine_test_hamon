@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:machine_test/applications/class_room/class_room_bloc.dart';
 import 'package:machine_test/applications/home/bloc/home_bloc.dart';
 import 'package:machine_test/applications/students/students_bloc.dart';
 import 'package:machine_test/applications/subject/subject_bloc.dart';
@@ -32,6 +33,9 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<SubjectBloc>(
             create: (context) => SubjectBloc(),
+          ),
+          BlocProvider<ClassRoomBloc>(
+            create: (context) => ClassRoomBloc(),
           ),
         ],
         child: MaterialApp(

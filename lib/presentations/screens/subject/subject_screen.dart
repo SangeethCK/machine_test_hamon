@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,8 +12,8 @@ import 'package:machine_test/presentations/screens/subject/widgets/subject_detai
 import 'package:machine_test/presentations/widgets/padding/main_padding.dart';
 
 class SubjectScreen extends StatefulWidget {
-  const SubjectScreen({super.key});
-
+  SubjectScreen({super.key, this.isValue = false});
+  bool isValue = false;
   @override
   State<SubjectScreen> createState() => _SubjectScreenState();
 }
@@ -53,9 +55,24 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: () {
-                        MaterialPageRoute(
-                          builder: (context) => SubjectDetailsScreen(),
-                        );
+                        if (widget.isValue == true) {
+                          log("${state.subjectList?[index].id}");
+                          log("${state.subjectList?[index].name}");
+                          log("${state.subjectList?[index].teacher}");
+                        }
+                        if (state.isStatus == ApiFetchStatus.success) {
+                          context.read<SubjectBloc>().add(
+                              SubjectDetailsLoadedEvent(
+                                  subjectId:
+                                      state.subjectList?[index].id ?? 0));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SubjectDetailsScreen(
+                                  id: state.subjectList?[index].id,
+                                ),
+                              ));
+                        }
                       },
                       child: commonListCard(
                         title1: state.subjectList?[index].name ?? '',

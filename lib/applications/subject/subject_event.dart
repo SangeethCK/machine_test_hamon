@@ -13,3 +13,12 @@ class SubjectLoadedEvent extends SubjectEvent {
   @override
   List<Object> get props => [];
 }
+
+class SubjectDetailsLoadedEvent extends SubjectEvent {
+  const SubjectDetailsLoadedEvent({required this.subjectId});
+
+  final int subjectId;
+
+  @override
+  List<Object> get props => [];
+}
