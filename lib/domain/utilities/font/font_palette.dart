@@ -24,11 +24,11 @@ class FontPalette {
     fontWeight: FontWeight.w600,
     letterSpacing: 0,
   );
-  static TextStyle heading2 = TextStyle(
-    fontSize: 44.sp,
-    fontWeight: FontWeight.w600,
-    letterSpacing: 0,
-  );
+  // static TextStyle heading2 = TextStyle(
+  //   fontSize: 44.sp,
+  //   fontWeight: FontWeight.w600,
+  //   letterSpacing: 0,
+  // );
   static TextStyle heading3 = TextStyle(
     fontSize: 32.sp,
     fontWeight: FontWeight.w600,
@@ -147,4 +147,10 @@ class FontPalette {
       fontWeight: FontWeight.w400,
       letterSpacing: 0,
       color: kBlack);
+
+  static TextStyle heading2 = TextStyle(
+    fontSize: 22.sp,
+    fontWeight: FontWeight.w700,
+    letterSpacing: 0,
+  );
 }

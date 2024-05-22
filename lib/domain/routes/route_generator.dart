@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:machine_test/domain/routes/routes.dart';
+import 'package:machine_test/presentations/screens/class_room/class_room.dart';
 import 'package:machine_test/presentations/screens/class_room/class_room_detail.dart';
 import 'package:machine_test/presentations/screens/home/home_screen.dart';
+import 'package:machine_test/presentations/screens/registration/registration_screen.dart';
 import 'package:machine_test/presentations/screens/students/student_screen.dart';
+import 'package:machine_test/presentations/screens/students/widgets/student_detail.dart';
+import 'package:machine_test/presentations/screens/subject/subject_screen.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
@@ -13,8 +17,24 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       case student:
         return MaterialPageRoute(builder: (_) => const StudentScreen());
+      case subjects:
+        return MaterialPageRoute(builder: (_) => const SubjectScreen());
+      case classRoom:
+        return MaterialPageRoute(builder: (_) => const ClassRoomScreen());
+      case registration:
+        return MaterialPageRoute(builder: (_) => const RegistrationScreen());
       case classRoomDetail:
         return MaterialPageRoute(builder: (_) => const ClassRoomDetailScreen());
+
+      case studentDetail:
+        if (args is Map) {
+          return MaterialPageRoute(
+              builder: (_) => StudentDetailScreen(
+                    id: args['id'],
+                  ));
+        } else {
+          return _errorRoute(argsError: true);
+        }
 
       // case routeHome:
       //   if (args is Map) {

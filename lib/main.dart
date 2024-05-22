@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:machine_test/applications/home/bloc/home_bloc.dart';
+import 'package:machine_test/applications/students/students_bloc.dart';
+import 'package:machine_test/applications/subject/subject_bloc.dart';
 import 'package:machine_test/domain/routes/route_generator.dart';
 import 'package:machine_test/domain/routes/routes.dart';
 import 'package:machine_test/presentations/screens/home/home_screen.dart';
@@ -18,17 +22,30 @@ class MyApp extends StatelessWidget {
       designSize: const Size(390, 844),
       minTextAdapt: true,
       useInheritedMediaQuery: true,
-      child: MaterialApp(
-        themeMode: ThemeMode.system,
-        onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
-        initialRoute: routeRoot,
-        navigatorKey: navigatorKey,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<HomeBloc>(
+            create: (context) => HomeBloc(),
+          ),
+          BlocProvider<StudentsBloc>(
+            create: (context) => StudentsBloc(),
+          ),
+          BlocProvider<SubjectBloc>(
+            create: (context) => SubjectBloc(),
+          ),
+        ],
+        child: MaterialApp(
+          themeMode: ThemeMode.system,
+          onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
+          initialRoute: routeRoot,
+          navigatorKey: navigatorKey,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+          ),
+          home: const HomeScreen(),
         ),
-        home: const HomeScreen(),
       ),
     );
   }

@@ -24,7 +24,7 @@ class MainPadding extends StatelessWidget {
         left ?? 16.w,
         top ?? 20.h,
         right ?? 16.w,
-        bottom ?? 20.h,
+        bottom ?? 16.h,
       ),
       child: child,
     );
