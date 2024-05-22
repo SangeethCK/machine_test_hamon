@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:machine_test/domain/routes/route_generator.dart';
+import 'package:machine_test/domain/routes/routes.dart';
 import 'package:machine_test/presentations/screens/home/home_screen.dart';
+import 'package:machine_test/presentations/widgets/snackbars/snackbar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,13 +14,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return ScreenUtilInit(
+      designSize: const Size(390, 844),
+      minTextAdapt: true,
+      useInheritedMediaQuery: true,
+      child: MaterialApp(
+        themeMode: ThemeMode.system,
+        onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
+        initialRoute: routeRoot,
+        navigatorKey: navigatorKey,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: const HomeScreen(),
       ),
-      home: const HomeScreen(),
     );
   }
 }

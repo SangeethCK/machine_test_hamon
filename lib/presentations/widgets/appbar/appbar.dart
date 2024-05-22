@@ -33,7 +33,17 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
       leadingWidth: logo ? 22.w : null,
       shape: const Border(bottom: BorderSide(color: Colors.red, width: 0.25)),
       leading: hideLeading
-          ? const SizedBox()
+          ? RichText(
+              text: const TextSpan(
+                  text: 'Hello,',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.black),
+                  children: [
+                  TextSpan(
+                      text: 'Good Moring',
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal, color: Colors.black))
+                ]))
           : Navigator.canPop(context)
               ? IconButton(
                   onPressed: () {
@@ -44,13 +54,17 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
               : null,
       titleSpacing: Navigator.canPop(context) == true ? 0 : null,
       title: title != null
-          ? Text(
-              title!,
-              // style: TextUtils.theme.titleLarge?.copyWith(
-              //   fontWeight: FontWeight.w600,
-              //   color: myColorScheme(context).color1,
-              // ),
-            )
+          ? RichText(
+              text: const TextSpan(
+                  text: 'Hello,',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.black),
+                  children: [
+                  TextSpan(
+                      text: 'Good Morning',
+                      style: TextStyle(
+                          fontWeight: FontWeight.normal, color: Colors.black))
+                ]))
           : null,
       centerTitle: centerTitle,
       actions: actionTitle != null

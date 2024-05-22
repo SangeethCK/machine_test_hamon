@@ -54,11 +54,17 @@ const kLineDark2Color = Color(0xFF5B6577);
 const kLineDark3Color = Color(0xFF3E3E51);
 const kLineDark4Color = Color(0xFF202228);
 
-const kFillLight1Color = Color(0xFF666666);
-const kFillLight2Color = Color(0xFF999999);
-const kFillLight3Color = Color(0xFFCCCCCC);
-const kFillLight4Color = Color(0xFFE6E6E6);
-const kFillDark1Color = Color(0xFFA0A0A1);
+// const kFillLight1Color = Color(0xFF666666);
+// const kFillLight2Color = Color(0xFF999999);
+// const kFillLight3Color = Color(0xFFCCCCCC);
+// const kFillLight4Color = Color(0xFFE6E6E6);
 const kFillDark2Color = Color(0xFF707173);
 const kFillDark3Color = Color(0xFF414144);
 const kFillDark4Color = Color(0xFF30343D);
+
+const kFillLight1Color = Color(0XFFAAC9BF);
+const kFillLight2Color = Color(0xFFD8EBFD);
+const kFillLight3Color = Color(0xFFFFE0DD);
+const kFillLight4Color = Color(0xFFFFF3D9);
+
+const kFillDark1Color = Color(0xFFD1D1D1);
