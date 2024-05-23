@@ -11,9 +11,14 @@ class NetworkProvider {
 
   NetworkProvider()
       : _dio = Dio(BaseOptions(
-            baseUrl: baseUrl, headers: {"Content-Type": "application/json"})) {
+          baseUrl: baseUrl,
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        )) {
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
+        options.queryParameters.addAll({"api_key": "AB0Bf"});
         log('------------------------------------------------------------------------------------------------');
         log('Request = ${jsonEncode(options.data)}', name: options.path);
         log('------------------------------------------------------------------------------------------------');

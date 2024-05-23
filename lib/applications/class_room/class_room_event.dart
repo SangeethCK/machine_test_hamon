@@ -29,18 +29,22 @@ class UpdateSubjectEvent extends ClassRoomEvent {
 
 class UpdateSelectedSubjectEvent extends ClassRoomEvent {
   final String selectedSubjectName;
+  final int? selectedSubjectId;
 
-  const UpdateSelectedSubjectEvent(this.selectedSubjectName);
+  const UpdateSelectedSubjectEvent(
+      this.selectedSubjectName, this.selectedSubjectId);
 
   @override
-  List<Object?> get props => [selectedSubjectName];
+  List<Object?> get props => [selectedSubjectName, selectedSubjectId];
 }
 
 class UpdateSelectedStudentEvent extends ClassRoomEvent {
   final String selectedStudentName;
+  final int selectedStudentId;
 
-  const UpdateSelectedStudentEvent(this.selectedStudentName);
+  const UpdateSelectedStudentEvent(
+      this.selectedStudentName, this.selectedStudentId);
 
   @override
-  List<Object?> get props => [selectedStudentName];
+  List<Object?> get props => [selectedStudentName, selectedStudentId];
 }

@@ -4,3 +4,5 @@ enum ApiFetchStatus {
   success,
   failed,
 }
+
+enum DeletionStatus { initial, success, failure }

@@ -63,11 +63,15 @@ class ClassRoomBloc extends Bloc<ClassRoomEvent, ClassRoomState> {
 
   Future<void> _onUpdateSelectedSubject(
       UpdateSelectedSubjectEvent event, Emitter<ClassRoomState> emit) async {
-    emit(state.copyWith(selectedSubjectName: event.selectedSubjectName));
+    emit(state.copyWith(
+        selectedSubjectName: event.selectedSubjectName,
+        subjectId: event.selectedSubjectId));
   }
 
   Future<void> _onUpdateSelectedStudent(
       UpdateSelectedStudentEvent event, Emitter<ClassRoomState> emit) async {
-    emit(state.copyWith(selectedStudentName: event.selectedStudentName));
+    emit(state.copyWith(
+        selectedStudentName: event.selectedStudentName,
+        studentId: event.selectedStudentId));
   }
 }

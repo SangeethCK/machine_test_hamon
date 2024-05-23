@@ -5,14 +5,15 @@ import 'package:machine_test/domain/models/class_room/update_classroom_subject_r
 import 'package:machine_test/domain/utilities/enums/api_fetch_status.dart';
 
 class ClassRoomState extends Equatable {
-  const ClassRoomState({
-    this.classRoomList,
-    this.isStatus,
-    this.classDetail,
-    this.updateSubjectRequest,
-    this.selectedSubjectName,
-    this.selectedStudentName,
-  });
+  const ClassRoomState(
+      {this.classRoomList,
+      this.isStatus,
+      this.classDetail,
+      this.updateSubjectRequest,
+      this.selectedSubjectName,
+      this.selectedStudentName,
+      this.studentId,
+      this.subjectId});
 
   final List<Classroom>? classRoomList;
   final ApiFetchStatus? isStatus;
@@ -20,6 +21,8 @@ class ClassRoomState extends Equatable {
   final UpdateSubjectRequest? updateSubjectRequest;
   final String? selectedSubjectName;
   final String? selectedStudentName;
+  final int? studentId;
+  final int? subjectId;
 
   @override
   List<Object?> get props => [
@@ -29,6 +32,8 @@ class ClassRoomState extends Equatable {
         updateSubjectRequest,
         selectedSubjectName,
         selectedStudentName,
+        subjectId,
+        studentId,
       ];
   ClassRoomState copyWith({
     List<Classroom>? classRoomList,
@@ -37,6 +42,8 @@ class ClassRoomState extends Equatable {
     UpdateSubjectRequest? updateSubjectRequest,
     String? selectedSubjectName,
     String? selectedStudentName,
+    int? studentId,
+    int? subjectId,
   }) {
     return ClassRoomState(
         classRoomList: classRoomList ?? this.classRoomList,
@@ -44,7 +51,9 @@ class ClassRoomState extends Equatable {
         classDetail: classDetail ?? this.classDetail,
         updateSubjectRequest: updateSubjectRequest ?? this.updateSubjectRequest,
         selectedSubjectName: selectedSubjectName ?? this.selectedSubjectName,
-        selectedStudentName: selectedStudentName ?? this.selectedStudentName);
+        selectedStudentName: selectedStudentName ?? this.selectedStudentName,
+        studentId: studentId ?? studentId,
+        subjectId: subjectId ?? this.subjectId);
   }
 }
 

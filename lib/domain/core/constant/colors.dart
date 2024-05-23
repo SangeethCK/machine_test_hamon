@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 const kSnackBarIconColor = Colors.white;
 const kWhite = Color(0xFFFFFFFF);
 const kBlack = Color(0xFF000000);
-const kRedColor = Color(0xFFE95656);
+const kRedColor = Color(0xFFF9614F);
 const kYellowColor = Color(0xFFFFE193);
 const kOrangeColor = Color(0xFFDF8430);
 

@@ -49,13 +49,12 @@ class _SubjectScreenState extends State<SubjectScreen> {
               if (state.isStatus == ApiFetchStatus.loading) {
                 return const Center(child: CircularProgressIndicator());
               } else if (state.isStatus == ApiFetchStatus.success) {
-                return SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  child: Column(
-                    children: [
-                      headTitle(StringConstant.subjects),
-                      10.verticalSpace,
-                      ListView.builder(
+                return Column(
+                  children: [
+                    headTitle(StringConstant.subjects),
+                    10.verticalSpace,
+                    Expanded(
+                      child: ListView.builder(
                         itemCount: state.subjectList?.length ?? 0,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
@@ -97,8 +96,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
                           );
                         },
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 );
               } else if (state.isStatus == ApiFetchStatus.failed) {
                 return const Center(child: Text('Failed to load subject'));

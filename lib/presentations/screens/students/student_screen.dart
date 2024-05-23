@@ -33,38 +33,38 @@ class StudentScreen extends StatelessWidget {
             } else if (state.getStatus == ApiFetchStatus.success) {
               return MainPadding(
                 top: 10,
-                child: ListView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
+                child: Column(
                   children: [
                     headTitle('Students'),
-                    ListView.builder(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: state.students?.length ?? 0,
-                      itemBuilder: (context, index) {
-                        final student = state.students![index];
-                        return InkWell(
-                          onTap: () {
-                            if (isStudent == true) {
-                              Navigator.pop(
-                                  context, [student.id, student.name]);
-                            } else {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      StudentDetailScreen(id: student.id ?? 0),
-                                ),
-                              );
-                            }
+                    Expanded(
+                      child: ListView.builder(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: state.students?.length ?? 0,
+                        itemBuilder: (context, index) {
+                          final student = state.students![index];
+                          return InkWell(
+                            onTap: () {
+                              if (isStudent == true) {
+                                Navigator.pop(
+                                    context, [student.id, student.name]);
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => StudentDetailScreen(
+                                        id: student.id ?? 0),
+                                  ),
+                                );
+                              }
 
-                            // Navigator.pushNamed(context, studentDetail,
-                            //     arguments: student.id);
-                          },
-                          child: _studentsCard(student),
-                        );
-                      },
+                              // Navigator.pushNamed(context, studentDetail,
+                              //     arguments: student.id);
+                            },
+                            child: _studentsCard(student),
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
