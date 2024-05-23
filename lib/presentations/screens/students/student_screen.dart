@@ -7,15 +7,16 @@ import 'package:machine_test/domain/models/student/student_response.dart';
 import 'package:machine_test/domain/utilities/enums/api_fetch_status.dart';
 import 'package:machine_test/domain/utilities/font/font_palette.dart';
 import 'package:machine_test/presentations/screens/students/widgets/student_detail.dart';
+import 'package:machine_test/presentations/widgets/appbar/appbar.dart';
 import 'package:machine_test/presentations/widgets/padding/main_padding.dart';
 
 class StudentScreen extends StatelessWidget {
-  const StudentScreen({super.key});
-
+  const StudentScreen({super.key, this.isStudent});
+  final bool? isStudent;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: const AppbarWidget(),
       body: BlocProvider(
         create: (context) => StudentsBloc()..add(LoadStudentsEvent()),
         child: BlocConsumer<StudentsBloc, StudentsState>(
@@ -31,6 +32,7 @@ class StudentScreen extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             } else if (state.getStatus == ApiFetchStatus.success) {
               return MainPadding(
+                top: 10,
                 child: ListView(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
@@ -44,13 +46,19 @@ class StudentScreen extends StatelessWidget {
                         final student = state.students![index];
                         return InkWell(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    StudentDetailScreen(id: student.id ?? 0),
-                              ),
-                            );
+                            if (isStudent == true) {
+                              Navigator.pop(
+                                  context, [student.id, student.name]);
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      StudentDetailScreen(id: student.id ?? 0),
+                                ),
+                              );
+                            }
+
                             // Navigator.pushNamed(context, studentDetail,
                             //     arguments: student.id);
                           },

@@ -1,19 +1,22 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:machine_test/applications/subject/subject_bloc.dart';
 import 'package:machine_test/applications/subject/subject_state.dart';
 import 'package:machine_test/domain/core/constant/colors.dart';
+import 'package:machine_test/domain/core/constant/string_constant.dart';
 import 'package:machine_test/domain/utilities/enums/api_fetch_status.dart';
 import 'package:machine_test/domain/utilities/font/font_palette.dart';
+import 'package:machine_test/presentations/screens/students/student_screen.dart';
 import 'package:machine_test/presentations/screens/subject/widgets/subject_details.dart';
+import 'package:machine_test/presentations/widgets/appbar/appbar.dart';
 import 'package:machine_test/presentations/widgets/padding/main_padding.dart';
 
 class SubjectScreen extends StatefulWidget {
-  SubjectScreen({super.key, this.isValue = false});
-  bool isValue = false;
+  const SubjectScreen({super.key, this.isValue = false, this.id});
+  final bool isValue;
+  final int? id;
+
   @override
   State<SubjectScreen> createState() => _SubjectScreenState();
 }
@@ -30,10 +33,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Subjects'),
-        centerTitle: true,
-      ),
+      appBar: const AppbarWidget(),
       body: BlocListener<SubjectBloc, SubjectState>(
         listener: (context, state) {
           if (state.isStatus == ApiFetchStatus.failed) {
@@ -49,41 +49,56 @@ class _SubjectScreenState extends State<SubjectScreen> {
               if (state.isStatus == ApiFetchStatus.loading) {
                 return const Center(child: CircularProgressIndicator());
               } else if (state.isStatus == ApiFetchStatus.success) {
-                return ListView.builder(
-                  itemCount: state.subjectList?.length ?? 0,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () {
-                        if (widget.isValue == true) {
-                          log("${state.subjectList?[index].id}");
-                          log("${state.subjectList?[index].name}");
-                          log("${state.subjectList?[index].teacher}");
-                        }
-                        if (state.isStatus == ApiFetchStatus.success) {
-                          context.read<SubjectBloc>().add(
-                              SubjectDetailsLoadedEvent(
-                                  subjectId:
-                                      state.subjectList?[index].id ?? 0));
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SubjectDetailsScreen(
-                                  id: state.subjectList?[index].id,
-                                ),
-                              ));
-                        }
-                      },
-                      child: commonListCard(
-                        title1: state.subjectList?[index].name ?? '',
-                        title2: 'Credit',
-                        trailingTitle1:
-                            state.subjectList?[index].teacher.toString() ?? '',
-                        trailingTitle2:
-                            state.subjectList?[index].credits.toString() ?? '',
+                return SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                    children: [
+                      headTitle(StringConstant.subjects),
+                      10.verticalSpace,
+                      ListView.builder(
+                        itemCount: state.subjectList?.length ?? 0,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return InkWell(
+                            onTap: () {
+                              if (widget.isValue == true) {
+                                Navigator.pop(context, [
+                                  state.subjectList?[index].id,
+                                  state.subjectList?[index].name
+                                ]);
+                              } else {
+                                if (state.isStatus == ApiFetchStatus.success) {
+                                  context.read<SubjectBloc>().add(
+                                      SubjectDetailsLoadedEvent(
+                                          subjectId:
+                                              state.subjectList?[index].id ??
+                                                  0));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            SubjectDetailsScreen(
+                                          id: state.subjectList?[index].id,
+                                        ),
+                                      ));
+                                }
+                              }
+                            },
+                            child: commonListCard(
+                              title1: state.subjectList?[index].name ?? '',
+                              title2: 'Credit',
+                              trailingTitle1: state.subjectList?[index].teacher
+                                      .toString() ??
+                                  '',
+                              trailingTitle2: state.subjectList?[index].credits
+                                      .toString() ??
+                                  '',
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
+                    ],
+                  ),
                 );
               } else if (state.isStatus == ApiFetchStatus.failed) {
                 return const Center(child: Text('Failed to load subject'));

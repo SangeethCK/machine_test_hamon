@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:machine_test/domain/core/constant/string_constant.dart';
+import 'package:machine_test/domain/utilities/font/font_palette.dart';
 
 class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
   const AppbarWidget({
@@ -11,12 +12,11 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
     this.color,
     this.iconColor,
     this.actionTitle,
-    this.shadow = false,
     this.hideLeading = false,
   });
 
   final String? title, actionTitle;
-  final bool logo, shadow, centerTitle;
+  final bool logo, centerTitle;
   final List<Widget> actions;
   final Color? color, iconColor;
   final bool hideLeading;
@@ -28,60 +28,51 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
         color: iconColor,
         size: 20,
       ),
-      backgroundColor: color,
-      elevation: shadow ? null : 0,
-      leadingWidth: logo ? 22.w : null,
-      shape: const Border(bottom: BorderSide(color: Colors.red, width: 0.25)),
+      backgroundColor: Colors.white,
+      elevation: 0,
       leading: hideLeading
-          ? RichText(
-              text: const TextSpan(
-                  text: 'Hello,',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.black),
-                  children: [
-                  TextSpan(
-                      text: 'Good Moring',
-                      style: TextStyle(
-                          fontWeight: FontWeight.normal, color: Colors.black))
-                ]))
+          ? const SizedBox()
           : Navigator.canPop(context)
-              ? IconButton(
-                  onPressed: () {
-                    Navigator.maybePop(context);
-                  },
-                  icon: const Icon(Icons.arrow_back_ios),
+              ? Padding(
+                  padding: const EdgeInsets.only(left: 16),
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.maybePop(context);
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back_ios,
+                      size: 22,
+                    ),
+                  ),
                 )
               : null,
-      titleSpacing: Navigator.canPop(context) == true ? 0 : null,
-      title: title != null
-          ? RichText(
-              text: const TextSpan(
-                  text: 'Hello,',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.black),
+      titleSpacing:
+          Navigator.canPop(context) ? 0 : NavigationToolbar.kMiddleSpacing,
+      title: title == null
+          ? null
+          : RichText(
+              text: TextSpan(
+                  text: StringConstant.hello,
+                  style: FontPalette.head1,
                   children: [
                   TextSpan(
-                      text: 'Good Morning',
-                      style: TextStyle(
-                          fontWeight: FontWeight.normal, color: Colors.black))
-                ]))
-          : null,
+                      text: StringConstant.goodMorining,
+                      style: FontPalette.headSub2)
+                ])),
       centerTitle: centerTitle,
       actions: actionTitle != null
           ? [
               Center(
                 child: Text(
                   actionTitle!,
-                  // style: TextUtils.theme.titleMedium
-                  //     ?.copyWith(fontWeight: FontWeight.w600, color: kBlack65),
                 ),
               ),
-              // dWidth3,
             ]
           : actions,
     );
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize =>
+      const Size.fromHeight(kToolbarHeight); // Adjust the height as needed
 }

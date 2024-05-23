@@ -1,33 +1,44 @@
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:machine_test/domain/core/api/end_point/end_points.dart';
+import 'package:machine_test/domain/core/api/interceptor/interceptor.dart';
 import 'package:machine_test/domain/models/student/student_details.dart';
 import 'package:machine_test/domain/models/student/student_response.dart';
 
 class StudentsRepository {
   //=-=-=-=-= Student -=-=-=
-  final dio = Dio();
-  Future<List<StudentList>> loadStudent() async {
-    Response response = await dio
-        .get('https://nibrahim.pythonanywhere.com/students/?api_key=AB0Bf');
-    switch (response.statusCode) {
-      case 200:
-        return (response.data['students'] as List)
-            .map((e) => StudentList.fromJson(e))
-            .toList();
-      default:
-        return throw Exception('Error');
+
+  Future<Either<String, List<StudentList>>> loadStudent() async {
+    try {
+      Response response = await NetworkProvider().get(EndPoints.students);
+
+      switch (response.statusCode) {
+        case 200:
+          return Right((response.data['students'] as List)
+              .map((e) => StudentList.fromJson(e))
+              .toList());
+        default:
+          return const Left('Error');
+      }
+    } catch (e) {
+      return Left('Error: $e');
     }
   }
 
-//=-=-=-== Student Details =-=-=-=-=
-  Future<StudentDetailResponse> loadStudentDetil(int id) async {
-    Response response = await dio
-        .get('https://nibrahim.pythonanywhere.com//students/$id?api_key=AB0Bf');
-    switch (response.statusCode) {
-      case 200:
-        return StudentDetailResponse.fromJson(response.data);
-
-      default:
-        return throw Exception('Error');
+  //=-=-=-== Student Details =-=-=-=-=
+  Future<Either<String, StudentDetailResponse>> loadStudentDetail(
+      int id) async {
+    try {
+      Response response = await NetworkProvider()
+          .get('${EndPoints.studentDetails}/$id?api_key=AB0Bf');
+      switch (response.statusCode) {
+        case 200:
+          return Right(StudentDetailResponse.fromJson(response.data));
+        default:
+          return const Left('Error');
+      }
+    } catch (e) {
+      return Left('Error: $e');
     }
   }
 }

@@ -153,4 +153,19 @@ class FontPalette {
     fontWeight: FontWeight.w700,
     letterSpacing: 0,
   );
+  static TextStyle labelText2 = TextStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w500,
+    letterSpacing: 0,
+  );
+  static TextStyle labelText3 = TextStyle(
+    fontSize: 22.sp,
+    fontWeight: FontWeight.w400,
+    letterSpacing: 0,
+  );
+  static TextStyle head5 = TextStyle(
+      fontSize: 17.sp,
+      fontWeight: FontWeight.w600,
+      letterSpacing: 0,
+      color: kBlack);
 }

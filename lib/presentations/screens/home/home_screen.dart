@@ -4,9 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:machine_test/applications/home/bloc/home_bloc.dart';
 import 'package:machine_test/domain/core/constant/colors.dart';
-import 'package:machine_test/domain/core/constant/demo.dart';
+import 'package:machine_test/domain/core/constant/helper.dart';
+import 'package:machine_test/domain/core/constant/images.dart';
 import 'package:machine_test/domain/routes/routes.dart';
 import 'package:machine_test/domain/utilities/font/font_palette.dart';
+import 'package:machine_test/presentations/widgets/appbar/appbar.dart';
 import 'package:machine_test/presentations/widgets/padding/main_padding.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -17,15 +19,9 @@ class HomeScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => HomeBloc(),
       child: Scaffold(
-        appBar: AppBar(
-          centerTitle: false,
-          title: RichText(
-              text: TextSpan(
-                  text: 'Hello,\n',
-                  style: FontPalette.head1,
-                  children: [
-                TextSpan(text: 'Good Moring', style: FontPalette.headSub2)
-              ])),
+        appBar: AppbarWidget(
+          
+          title: 'Name',
           actions: [
             BlocBuilder<HomeBloc, HomeState>(
               builder: (context, state) {
@@ -36,13 +32,11 @@ class HomeScreen extends StatelessWidget {
                   child: state is GridViewState == false
                       ? Padding(
                           padding: const EdgeInsets.only(left: 10, right: 16),
-                          child: SvgPicture.asset(
-                              'assets/images/eva_menu-outline.svg'),
+                          child: SvgPicture.asset(Assets.actionIcon1),
                         )
                       : Padding(
                           padding: const EdgeInsets.only(left: 10, right: 16),
-                          child:
-                              SvgPicture.asset('assets/images/bi_grid-1x2.svg'),
+                          child: SvgPicture.asset(Assets.actionIcon2),
                         ),
                 );
               },

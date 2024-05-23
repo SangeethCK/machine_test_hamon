@@ -15,7 +15,8 @@ class StudentsBloc extends Bloc<StudentsEvent, StudentsState> {
     on<LoadStudentsEvent>(_onLoadStudents);
     on<LoadStudentDetailsEvent>(_onLoadStudentDetails);
   }
-//=-=-=-= Students =-=-=-=-=
+
+  //=-=-=-= Students =-=-=-=-=
   Future<void> _onLoadStudents(
       LoadStudentsEvent event, Emitter<StudentsState> emit) async {
     emit(state.copyWith(getStatus: ApiFetchStatus.loading));
@@ -24,9 +25,16 @@ class StudentsBloc extends Bloc<StudentsEvent, StudentsState> {
     try {
       final students = await StudentsRepository().loadStudent();
 
-      emit(state.copyWith(
-          getStatus: ApiFetchStatus.success, students: students));
-    } catch (e) {
+      students.fold(
+        (error) {
+          emit(state.copyWith(getStatus: ApiFetchStatus.failed));
+        },
+        (studentsList) {
+          emit(state.copyWith(
+              getStatus: ApiFetchStatus.success, students: studentsList));
+        },
+      );
+    } catch (_) {
       emit(state.copyWith(getStatus: ApiFetchStatus.failed));
     }
   }
@@ -37,10 +45,18 @@ class StudentsBloc extends Bloc<StudentsEvent, StudentsState> {
     emit(state.copyWith(getStatus: ApiFetchStatus.loading));
     try {
       final studentDetail =
-          await StudentsRepository().loadStudentDetil(event.studentId);
-      emit(state.copyWith(
-          studentDetail: studentDetail, getStatus: ApiFetchStatus.success));
-    } catch (e) {
+          await StudentsRepository().loadStudentDetail(event.studentId);
+
+      studentDetail.fold(
+        (error) {
+          emit(state.copyWith(getStatus: ApiFetchStatus.failed));
+        },
+        (detail) {
+          emit(state.copyWith(
+              studentDetail: detail, getStatus: ApiFetchStatus.success));
+        },
+      );
+    } catch (_) {
       emit(state.copyWith(getStatus: ApiFetchStatus.failed));
     }
   }

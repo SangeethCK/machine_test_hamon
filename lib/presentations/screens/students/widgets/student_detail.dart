@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:machine_test/applications/students/students_bloc.dart';
+import 'package:machine_test/domain/core/constant/string_constant.dart';
 import 'package:machine_test/domain/utilities/enums/api_fetch_status.dart';
+import 'package:machine_test/presentations/screens/students/student_screen.dart';
+import 'package:machine_test/presentations/widgets/appbar/appbar.dart';
 import 'package:machine_test/presentations/widgets/padding/main_padding.dart';
 
 class StudentDetailScreen extends StatelessWidget {
@@ -11,10 +15,7 @@ class StudentDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Subject Detail'),
-        centerTitle: true,
-      ),
+      appBar: const AppbarWidget(),
       body: MainPadding(
         child: BlocProvider(
           create: (context) => StudentsBloc()..add(LoadStudentDetailsEvent(id)),
@@ -33,11 +34,11 @@ class StudentDetailScreen extends StatelessWidget {
               } else if (state.getStatus == ApiFetchStatus.success) {
                 return Center(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      headTitle(StringConstant.studentDetail),
+                      80.verticalSpace,
                       CircleAvatar(
-                        radius: 50,
+                        radius: 50.sp,
                         child: Image.asset('assets/images/Ellipse 1.png'),
                       ),
                       const SizedBox(height: 20),

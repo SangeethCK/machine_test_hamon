@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:machine_test/domain/routes/routes.dart';
 import 'package:machine_test/presentations/screens/class_room/class_room.dart';
-import 'package:machine_test/presentations/screens/class_room/class_room_detail.dart';
 import 'package:machine_test/presentations/screens/home/home_screen.dart';
 import 'package:machine_test/presentations/screens/registration/registration_screen.dart';
 import 'package:machine_test/presentations/screens/students/student_screen.dart';
@@ -18,7 +17,7 @@ class RouteGenerator {
       case student:
         return MaterialPageRoute(builder: (_) => const StudentScreen());
       case subjects:
-        return MaterialPageRoute(builder: (_) => SubjectScreen());
+        return MaterialPageRoute(builder: (_) => const SubjectScreen());
       case classRoom:
         return MaterialPageRoute(builder: (_) => const ClassRoomScreen());
       case registration:

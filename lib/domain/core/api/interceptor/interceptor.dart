@@ -3,38 +3,20 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:machine_test/domain/core/api/end_point/base_url.dart';
 import 'package:machine_test/presentations/widgets/snackbars/snackbar.dart';
-// import 'package:hyfy/shared/utilities/flavours/flavors.dart';
-
-// import '../../constant/base_url.dart';
-// import '../../utilities/auth/auth_utils.dart';
-// import '../../widgets/snackbars/snackbar.dart';
 
 class NetworkProvider {
   final Dio _dio;
 
   NetworkProvider()
       : _dio = Dio(BaseOptions(
-            baseUrl: '', headers: {"Content-Type": "application/json"})) {
+            baseUrl: baseUrl, headers: {"Content-Type": "application/json"})) {
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
         log('------------------------------------------------------------------------------------------------');
         log('Request = ${jsonEncode(options.data)}', name: options.path);
         log('------------------------------------------------------------------------------------------------');
-
-        // if (options.headers.containsKey('auth')) {
-        //   options.headers.remove('auth');
-        // } else {
-        //   // final String? token = await AuthUtils.instance.readAccessToken;
-        //   // const String token =
-        //   //     'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEzNTQ0MzkwLCJpYXQiOjE3MDgzNjAzOTAsImp0aSI6IjY2OTE1MWQyOTUzNjRjYmNiN2Y2Njc2YWI4ZWE0NWY4IiwidXNlcl9pZCI6NjB9.XSLtOYDGPXZvWEFevInzhu9LOBxchvg20XFDfCfPArw';
-        //   // if (token != null && token != "") {
-        //   //   options.headers
-        //   //       .addEntries({'Authorization': 'Bearer $token'}.entries);
-        //   // }
-
-        //   // log("token ${token}");
-        // }
 
         return handler.next(options);
       },
@@ -54,7 +36,6 @@ class NetworkProvider {
           case DioExceptionType.connectionError:
           case DioExceptionType.sendTimeout:
           case DioExceptionType.receiveTimeout:
-          case DioExceptionType.unknown:
             final Response response = await retryRequest(error.requestOptions);
             handler.resolve(response);
             break;
@@ -65,7 +46,6 @@ class NetworkProvider {
 
         switch (error.response?.statusCode) {
           case 401:
-            // await AuthUtils.instance.logout();
             kSnackBar(
                 content:
                     'Unauthorized: Access is denied due to invalid token. Please try again!',
@@ -197,15 +177,11 @@ class NetworkProvider {
   }
 
   Future<Response<T>> retryRequest<T>(RequestOptions requestOptions) async {
-    final Completer<Response<T>> responseCompleter = Completer<Response<T>>();
-
-    responseCompleter.complete(
-      request<T>(
-        requestOptions,
-      ),
-    );
-
-    return responseCompleter.future;
+    try {
+      return await request<T>(requestOptions);
+    } catch (error) {
+      return Future.error(error);
+    }
   }
 
   Future<Response<T>> request<T>(RequestOptions requestOptions) async {
