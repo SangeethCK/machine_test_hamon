@@ -11,7 +11,7 @@ class StringConstant {
   static String deleteRegisrtaion = 'Delete';
   static String add = 'Add';
   static String addSubject = 'Add Subject';
-  static String failedSubject = 'Fail to load subject';
+  static String failedSubject = 'Fail to load subject, server error';
   static String studentDetail = 'Student Detail';
   static String subjectDetail = 'Subject Detail';
   static String classRoomDetai = 'ClassRoom Detail';
@@ -29,8 +29,9 @@ class StringConstant {
   static String loadedSubject = 'Press the button to load subject.';
   static String successfullyPdated = 'SuccessFully Updated';
   static String noFound = 'No Found';
-  static String faildTostudent = 'Failed to load students';
+  static String faildTostudent = 'Failed to load students, server error';
   static String pressedTheloadstudent = 'Press the button to load students.';
-  static String faildtostudentdetail = 'Failed to load student details';
-  static String fialedStudent = 'Failed to load student details';
+  static String faildtostudentdetail =
+      'Failed to load student details, server error';
+  static String fialedStudent = 'Failed to load student details,server error';
 }
