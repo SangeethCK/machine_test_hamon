@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:machine_test/applications/class_room/class_room_state.dart';
+import 'package:machine_test/domain/models/class_room/class_room_details.dart';
 import 'package:machine_test/domain/models/class_room/update_classroom_subject_request.dart';
 import 'package:machine_test/domain/utilities/enums/api_fetch_status.dart';
 import 'package:machine_test/infrastructure/class_room/class_room_repostory.dart';
@@ -19,9 +20,8 @@ class ClassRoomBloc extends Bloc<ClassRoomEvent, ClassRoomState> {
     on<UpdateSelectedStudentEvent>(_onUpdateSelectedStudent);
     on<ClearClassRoomStateEvent>(_onClearClassRoomState);
     on<ClearSelectedSubjectName>(_onClearSelectedSubjectName);
-    on<ClassRoomSubjectDetail>(_onWhereident);
-
-    // on<ClearSelectedStudentName>(_onClearSelectedStudentName);
+    on<ClassRoomSubjectDetail>(_onMatchingSubjectWithId);
+    on<ClearClassEvent>(_onClearSelectedDetails);
   }
 
   //=-=-=-= Students =-=-=-=-=
@@ -50,7 +50,7 @@ class ClassRoomBloc extends Bloc<ClassRoomEvent, ClassRoomState> {
       emit(state.copyWith(
           classDetail: classRoomDetail, isStatus: ApiFetchStatus.success));
     } catch (e) {
-      emit(state.copyWith(isStatus: ApiFetchStatus.failed));
+      emit(state.copyWith(classDetail: null, isStatus: ApiFetchStatus.failed));
     }
   }
 
@@ -91,21 +91,30 @@ class ClassRoomBloc extends Bloc<ClassRoomEvent, ClassRoomState> {
     emit(state.copyWith(selectedSubjectName: ''));
   }
 
-  // Future<void> _onClearSelectedStudentName(
-  //     ClearSelectedStudentName event, Emitter<ClassRoomState> emit) async {
-  //   emit(state.copyWith(selectedStudentName: null));
-  // }
+  Future<void> _onClearSelectedDetails(
+      ClearClassEvent event, Emitter<ClassRoomState> emit) async {
+    emit(state.copyWith(
+        classDetail: ClassRoomDetailResponse(),
+        selectedStudentName: null,
+        selectedSubjectName: null,
+        subjectId: null,
+        isStatus: ApiFetchStatus.loading));
+  }
 
-  Future<void> _onWhereident(
+  Future<void> _onMatchingSubjectWithId(
       ClassRoomSubjectDetail event, Emitter<ClassRoomState> emit) async {
     try {
       final subject = await SubjectRepository().loadSubjectList();
-      final data = subject.firstWhere((e) => e.id == state.classDetail?.id);
-      emit(state.copyWith(
-        selectedSubjectName: data.name,
-      ));
+      log("Id =-= -=-  ${event.classId}");
+      if (state.classDetail != null && state.classDetail!.subject != null) {
+        final data = subject
+            .firstWhere((e) => e.id == int.parse(state.classDetail?.subject));
+        emit(state.copyWith(classDetail: null, selectedSubjectName: data.name));
+      } else {
+        emit(state.copyWith(selectedSubjectName: null));
+      }
     } catch (e, stackTrace) {
-      log("Error in _onWhereident: $e\n$stackTrace");
+      log("Error in _onMatchingSubjectWithId: $e\n$stackTrace");
     }
   }
 }

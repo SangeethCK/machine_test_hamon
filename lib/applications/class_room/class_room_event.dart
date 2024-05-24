@@ -55,6 +55,7 @@ class ClearSelectedSubjectName extends ClassRoomEvent {}
 
 class ClearSelectedStudentName extends ClassRoomEvent {}
 
+class ClearClassEvent extends ClassRoomEvent {}
 
 class ClassRoomSubjectDetail extends ClassRoomEvent {
   const ClassRoomSubjectDetail({this.classId});

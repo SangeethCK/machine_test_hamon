@@ -5,8 +5,10 @@ import 'package:machine_test/domain/core/constant/string_constant.dart';
 import 'package:machine_test/domain/utilities/font/font_palette.dart';
 
 class CommonLightCard extends StatelessWidget {
-  const CommonLightCard({super.key, this.title, required this.onTap});
+  const CommonLightCard(
+      {super.key, this.title, required this.onTap, this.titleAd});
   final String? title;
+  final String? titleAd;
   final Function onTap;
 
   @override
@@ -36,7 +38,7 @@ class CommonLightCard extends StatelessWidget {
               width: 86.sp,
               child: Center(
                   child: Text(
-                StringConstant.add,
+                titleAd ?? StringConstant.add,
                 style: FontPalette.labelText2.copyWith(color: kFillDark5Color),
               )),
             ),

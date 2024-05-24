@@ -62,15 +62,17 @@ class _SubjectScreenState extends State<ClassRoomScreen> {
                             onTap: () {
                               if (state.isStatus == ApiFetchStatus.success) {
                                 if (data?.layout == 'conference') {
-                                  context.read<ClassRoomBloc>().add(
-                                      ClassRoomDetailEvent(
-                                          classId: data?.id ?? 0));
+                                  context
+                                      .read<ClassRoomBloc>()
+                                      .add(ClearClassEvent());
                                   context
                                       .read<ClassRoomBloc>()
                                       .add(ClearSelectedSubjectName());
-                                  context
-                                      .read<ClassRoomBloc>()
-                                      .add(const ClassRoomSubjectDetail());
+
+                                  context.read<ClassRoomBloc>().add(
+                                      ClassRoomDetailEvent(
+                                          classId: data?.id ?? 0));
+
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -78,15 +80,20 @@ class _SubjectScreenState extends State<ClassRoomScreen> {
                                             const ConferenceRoomDetailScreen(),
                                       ));
                                 } else {
-                                  context.read<ClassRoomBloc>().add(
-                                      ClassRoomDetailEvent(
-                                          classId: data?.id ?? 0));
-                                  context
-                                      .read<ClassRoomBloc>()
-                                      .add(ClearSelectedSubjectName());
                                   context
                                       .read<ClassRoomBloc>()
                                       .add(const ClassRoomSubjectDetail());
+                                  context
+                                      .read<ClassRoomBloc>()
+                                      .add(ClearClassEvent());
+
+                                  context
+                                      .read<ClassRoomBloc>()
+                                      .add(ClearSelectedSubjectName());
+                                  context.read<ClassRoomBloc>().add(
+                                      ClassRoomDetailEvent(
+                                          classId: data?.id ?? 0));
+
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(

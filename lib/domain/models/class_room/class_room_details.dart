@@ -1,7 +1,7 @@
 class ClassRoomDetailResponse {
-  final int? id;
+  int? id;
   final String? layout;
-  final String? name;
+  String? name;
   final int? size;
   var subject;
 
