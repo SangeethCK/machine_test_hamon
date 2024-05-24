@@ -25,8 +25,8 @@ class BaseApi {
       Response response = await dio!
           .get(url, queryParameters: allQueryParameters, options: options);
 
-      log('status code = ${response.statusCode}\nresponse == ${response.data.toString()}',
-          name: url);
+      // log('status code = ${response.statusCode}\nresponse == ${response.data.toString()}',
+      // name: url);
 
       if (response.statusCode == 401) {
       } else {
@@ -61,8 +61,8 @@ class BaseApi {
       Response response = await dio!.post(url,
           queryParameters: allQueryParameters, data: data, options: options);
 
-      log('status code = ${response.statusCode}\nresponse == ${response.data.toString()}',
-          name: url);
+      // log('status code = ${response.statusCode}\nresponse == ${response.data.toString()}',
+      //     name: url);
 
       if (response.statusCode == 401) {
       } else {

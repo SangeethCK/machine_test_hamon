@@ -24,7 +24,9 @@ class ClassRoomDetailScreen extends StatelessWidget {
               ? const Center(child: CircularProgressIndicator())
               : PopScope(
                   onPopInvoked: (didPop) {
-                    _performAsyncOperations(true, context);
+                    context
+                        .read<ClassRoomBloc>()
+                        .add(ClearSelectedSubjectEvent());
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -59,33 +61,29 @@ class ClassRoomDetailScreen extends StatelessWidget {
 
                                 if (selectedId != null &&
                                     selectedId.isNotEmpty) {
+                                  // WidgetsBinding.instance
+                                  //     .addPostFrameCallback((_) {
                                   context.read<ClassRoomBloc>().add(
                                       UpdateSelectedSubjectEvent(
                                           selectedId.last, selectedId.first));
-                                  WidgetsBinding.instance
-                                      .addPostFrameCallback((_) {
-                                    context.read<ClassRoomBloc>().add(
-                                          UpdateSubjectEvent(
-                                              updateRequest:
-                                                  UpdateSubjectRequest(
-                                                      id: state.classDetail?.id,
-                                                      layout: state
-                                                          .classDetail?.layout,
-                                                      subject: selectedId.first,
-                                                      name: state
-                                                          .classDetail?.name,
-                                                      size: state
-                                                          .classDetail?.size),
-                                              classId:
-                                                  state.classDetail?.id ?? 0),
-                                        );
+                                  context.read<ClassRoomBloc>().add(
+                                        UpdateSubjectEvent(
+                                            updateRequest: UpdateSubjectRequest(
+                                                id: state.classDetail?.id,
+                                                layout:
+                                                    state.classDetail?.layout,
+                                                subject: selectedId.first,
+                                                name: state.classDetail?.name,
+                                                size: state.classDetail?.size),
+                                            classId:
+                                                state.classDetail?.id ?? 0),
+                                      );
 
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content:
-                                              Text('SuccessFully Updated')),
-                                    );
-                                  });
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text('SuccessFully Updated')),
+                                  );
+                                  //   });
                                 }
                               },
                             );
@@ -128,17 +126,5 @@ class ClassRoomDetailScreen extends StatelessWidget {
         },
       ),
     );
-  }
-
-  Future<void> _performAsyncOperations(bool completion, context) async {
-    try {
-      await context.read<ClassRoomBloc>().add(const ClassRoomSubjectDetail());
-      await context.read<ClassRoomBloc>().add(ClearSelectedSubjectName());
-      // await context.watch<ClassRoomBloc>().add(ClearClassEvent());
-
-      completion = true;
-    } catch (e) {
-      completion = false;
-    }
   }
 }

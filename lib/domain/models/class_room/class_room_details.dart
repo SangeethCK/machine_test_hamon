@@ -4,6 +4,7 @@ class ClassRoomDetailResponse {
   String? name;
   final int? size;
   var subject;
+  String? subjectName;
 
   ClassRoomDetailResponse({
     this.id,
@@ -11,6 +12,7 @@ class ClassRoomDetailResponse {
     this.name,
     this.size,
     this.subject,
+    this.subjectName,
   });
 
   ClassRoomDetailResponse copyWith({
@@ -19,23 +21,24 @@ class ClassRoomDetailResponse {
     String? name,
     int? size,
     var subject,
+    String? subjectName,
   }) =>
       ClassRoomDetailResponse(
-        id: id ?? this.id,
-        layout: layout ?? this.layout,
-        name: name ?? this.name,
-        size: size ?? this.size,
-        subject: subject ?? this.subject,
-      );
+          id: id ?? this.id,
+          layout: layout ?? this.layout,
+          name: name ?? this.name,
+          size: size ?? this.size,
+          subject: subject ?? this.subject,
+          subjectName: subjectName ?? this.subjectName);
 
   factory ClassRoomDetailResponse.fromJson(Map<String, dynamic> json) =>
       ClassRoomDetailResponse(
-        id: json["id"],
-        layout: json["layout"],
-        name: json["name"],
-        size: json["size"],
-        subject: json["subject"].toString(),
-      );
+          id: json["id"],
+          layout: json["layout"],
+          name: json["name"],
+          size: json["size"],
+          subject: json["subject"].toString(),
+          subjectName: json["subject_name"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -43,5 +46,6 @@ class ClassRoomDetailResponse {
         "name": name,
         "size": size,
         "subject": subject,
+        "subject_name": subjectName
       };
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -64,11 +66,7 @@ class _SubjectScreenState extends State<ClassRoomScreen> {
                                 if (data?.layout == 'conference') {
                                   context
                                       .read<ClassRoomBloc>()
-                                      .add(ClearClassEvent());
-                                  context
-                                      .read<ClassRoomBloc>()
-                                      .add(ClearSelectedSubjectName());
-
+                                      .add(ClearSelectedSubjectEvent());
                                   context.read<ClassRoomBloc>().add(
                                       ClassRoomDetailEvent(
                                           classId: data?.id ?? 0));
@@ -82,14 +80,8 @@ class _SubjectScreenState extends State<ClassRoomScreen> {
                                 } else {
                                   context
                                       .read<ClassRoomBloc>()
-                                      .add(const ClassRoomSubjectDetail());
-                                  context
-                                      .read<ClassRoomBloc>()
-                                      .add(ClearClassEvent());
+                                      .add(ClearSelectedSubjectEvent());
 
-                                  context
-                                      .read<ClassRoomBloc>()
-                                      .add(ClearSelectedSubjectName());
                                   context.read<ClassRoomBloc>().add(
                                       ClassRoomDetailEvent(
                                           classId: data?.id ?? 0));

@@ -3,6 +3,7 @@ enum ApiFetchStatus {
   loading,
   success,
   failed,
+  initial,
 }
 
 enum DeletionStatus { initial, success, failure }

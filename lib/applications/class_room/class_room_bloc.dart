@@ -19,9 +19,8 @@ class ClassRoomBloc extends Bloc<ClassRoomEvent, ClassRoomState> {
     on<UpdateSelectedSubjectEvent>(_onUpdateSelectedSubject);
     on<UpdateSelectedStudentEvent>(_onUpdateSelectedStudent);
     on<ClearClassRoomStateEvent>(_onClearClassRoomState);
-    on<ClearSelectedSubjectName>(_onClearSelectedSubjectName);
-    on<ClassRoomSubjectDetail>(_onMatchingSubjectWithId);
-    on<ClearClassEvent>(_onClearSelectedDetails);
+    // on<ClearSelectedSubjectName>(_onClearSelectedSubjectName);
+    on<ClearSelectedSubjectEvent>(_onClearSelectedSubject);
   }
 
   //=-=-=-= Students =-=-=-=-=
@@ -45,10 +44,21 @@ class ClassRoomBloc extends Bloc<ClassRoomEvent, ClassRoomState> {
       ClassRoomDetailEvent event, Emitter<ClassRoomState> emit) async {
     emit(state.copyWith(isStatus: ApiFetchStatus.loading));
     try {
+      final subject = await SubjectRepository().loadSubjectList();
       final classRoomDetail =
           await ClassRoomRepostory().loadClassRoomDetail(event.classId ?? 0);
       emit(state.copyWith(
-          classDetail: classRoomDetail, isStatus: ApiFetchStatus.success));
+          selectedSubjectName: null,
+          subjectId: null,
+          classDetail: classRoomDetail,
+          isStatus: ApiFetchStatus.success));
+
+      log("Id =-= -=-  ${event.classId}");
+      if (state.classDetail != null && state.classDetail!.subject != null) {
+        final data = subject
+            .firstWhere((e) => e.id == int.parse(state.classDetail?.subject));
+        emit(state.copyWith(classDetail: null, selectedSubjectName: data.name));
+      }
     } catch (e) {
       emit(state.copyWith(classDetail: null, isStatus: ApiFetchStatus.failed));
     }
@@ -86,35 +96,25 @@ class ClassRoomBloc extends Bloc<ClassRoomEvent, ClassRoomState> {
     emit(ClassRoomInitial());
   }
 
-  Future<void> _onClearSelectedSubjectName(
-      ClearSelectedSubjectName event, Emitter<ClassRoomState> emit) async {
-    emit(state.copyWith(selectedSubjectName: ''));
-  }
-
-  Future<void> _onClearSelectedDetails(
-      ClearClassEvent event, Emitter<ClassRoomState> emit) async {
+  Future<void> _onClearSelectedSubject(
+      ClearSelectedSubjectEvent event, Emitter<ClassRoomState> emit) async {
     emit(state.copyWith(
-        classDetail: ClassRoomDetailResponse(),
-        selectedStudentName: null,
-        selectedSubjectName: null,
-        subjectId: null,
-        isStatus: ApiFetchStatus.loading));
+      selectedSubjectName: null,
+      subjectId: null,
+    ));
   }
 
-  Future<void> _onMatchingSubjectWithId(
-      ClassRoomSubjectDetail event, Emitter<ClassRoomState> emit) async {
-    try {
-      final subject = await SubjectRepository().loadSubjectList();
-      log("Id =-= -=-  ${event.classId}");
-      if (state.classDetail != null && state.classDetail!.subject != null) {
-        final data = subject
-            .firstWhere((e) => e.id == int.parse(state.classDetail?.subject));
-        emit(state.copyWith(classDetail: null, selectedSubjectName: data.name));
-      } else {
-        emit(state.copyWith(selectedSubjectName: null));
-      }
-    } catch (e, stackTrace) {
-      log("Error in _onMatchingSubjectWithId: $e\n$stackTrace");
-    }
+  // @override // NOT WORKING
+  // void onChange(Change<ClassRoomState> change) {
+  //   super.onChange(change);
+  //   print(change);
+  // }
+
+  @override
+  void onTransition(Transition<ClassRoomEvent, ClassRoomState> transition) {
+    super.onTransition(transition);
+    log('[${transition.runtimeType}]  transition: ${transition.event} ');
+    log('[${transition.runtimeType}]  currentstate: ${transition.currentState.selectedSubjectName} ');
+    log('[${transition.runtimeType}]  nextState: ${transition.nextState.selectedSubjectName} ');
   }
 }

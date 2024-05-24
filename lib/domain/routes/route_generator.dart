@@ -19,7 +19,7 @@ class RouteGenerator {
       case subjects:
         return MaterialPageRoute(builder: (_) => const SubjectScreen());
       case classRoom:
-        return MaterialPageRoute(builder: (_) => const ClassRoomScreen());
+        return MaterialPageRoute(builder: (_) => ClassRoomScreen());
       case registration:
         return MaterialPageRoute(builder: (_) => const RegistrationScreen());
       // case classRoomDetail:
