@@ -41,7 +41,7 @@ class ClassRoomDetailScreen extends StatelessWidget {
                           style: const TextStyle(
                               fontSize: 24, fontWeight: FontWeight.bold),
                         ),
-                        const SizedBox(height: 16),
+                        16.verticalSpace,
                         BlocBuilder<ClassRoomBloc, ClassRoomState>(
                           builder: (context, state) {
                             return CommonLightCard(

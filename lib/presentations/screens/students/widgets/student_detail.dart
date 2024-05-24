@@ -42,7 +42,7 @@ class StudentDetailScreen extends StatelessWidget {
                         radius: 50.sp,
                         child: Image.asset(Assets.studnetImage),
                       ),
-                      const SizedBox(height: 20),
+                      20.verticalSpace,
                       Text(
                         state.studentDetail?.name ?? '',
                         style: const TextStyle(
@@ -50,14 +50,14 @@ class StudentDetailScreen extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      10.verticalSpace,
                       Text(
                         "Age : ${state.studentDetail?.age.toString() ?? ''}",
                         style: const TextStyle(
                           fontSize: 20,
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      10.verticalSpace,
                       Text(
                         state.studentDetail?.email ?? '',
                         style: TextStyle(

@@ -33,7 +33,7 @@ class SubjectDetailsScreen extends StatelessWidget {
                             radius: 50.sp,
                             child: Image.asset(Assets.subjectImage),
                           ),
-                          const SizedBox(height: 20),
+                          20.verticalSpace,
                           Text(
                             state.subjectDetails?.name ?? '',
                             style: const TextStyle(
@@ -41,14 +41,14 @@ class SubjectDetailsScreen extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          const SizedBox(height: 10),
+                          10.verticalSpace,
                           Text(
                             state.subjectDetails?.teacher ?? '',
                             style: const TextStyle(
                               fontSize: 20,
                             ),
                           ),
-                          const SizedBox(height: 10),
+                          10.verticalSpace,
                           Text(
                             'Credit ${state.subjectDetails?.credits ?? 0}',
                             style: TextStyle(
