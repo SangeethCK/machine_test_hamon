@@ -1,15 +1,17 @@
 part of 'registration_bloc.dart';
 
 class RegistrationState extends Equatable {
-  const RegistrationState(
-      {this.studentId,
-      this.subjectId,
-      this.isStatus,
-      this.registration,
-      this.registrationList,
-      this.regDetail,
-      this.deletionMessage,
-      this.deletionStatus});
+  const RegistrationState({
+    this.studentId,
+    this.subjectId,
+    this.isStatus,
+    this.registration,
+    this.registrationList,
+    this.regDetail,
+    this.deletionMessage,
+    this.deletionStatus,
+    this.errorMessgae,
+  });
 
   final int? studentId;
   final int? subjectId;
@@ -19,6 +21,7 @@ class RegistrationState extends Equatable {
   final RegistrationDetailsResponse? regDetail;
   final DeletionStatus? deletionStatus;
   final String? deletionMessage;
+  final String? errorMessgae;
 
   @override
   List<Object?> get props => [
@@ -29,7 +32,8 @@ class RegistrationState extends Equatable {
         registrationList,
         regDetail,
         deletionStatus,
-        deletionMessage
+        deletionMessage,
+        errorMessgae,
       ];
 
   RegistrationState copyWith({
@@ -41,6 +45,7 @@ class RegistrationState extends Equatable {
     RegistrationDetailsResponse? regDetail,
     DeletionStatus? deletionStatus,
     String? deletionMessage,
+    String? errorMessgae,
   }) {
     return RegistrationState(
         studentId: studentId ?? studentId,
@@ -50,7 +55,8 @@ class RegistrationState extends Equatable {
         registrationList: registrationList ?? this.registrationList,
         regDetail: regDetail ?? this.regDetail,
         deletionMessage: deletionMessage ?? this.deletionMessage,
-        deletionStatus: deletionStatus ?? this.deletionStatus);
+        deletionStatus: deletionStatus ?? this.deletionStatus,
+        errorMessgae: errorMessgae ?? this.errorMessgae);
   }
 }
 

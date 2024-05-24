@@ -167,7 +167,6 @@ void _showDeleteConfirmationDialog(BuildContext context, Function onTap) {
             onPressed: () {
               onTap();
               Navigator.pop(context);
-              // Navigator.pop(context);
             },
           ),
         ],

@@ -17,6 +17,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     on<RegistrationDetailEvent>(_onLoadRegistrtaionDetail);
     on<RegistrationDelete>(_onRegistrationDelete);
   }
+//=-=-=-=-= Registration Creation =-=-=-==-=
 
   Future<void> _onUpdateClassRoomSubject(
       NewRegistrationEvent event, Emitter<RegistrationState> emit) async {
@@ -36,10 +37,12 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
 
       emit(state.copyWith(
           registrationList: updatedList, isStatus: ApiFetchStatus.success));
-    } catch (e) {
-      emit(state.copyWith(isStatus: ApiFetchStatus.failed));
+    } on ConflictException catch (e) {
+      emit(state.copyWith(
+          isStatus: ApiFetchStatus.failed, errorMessgae: e.message.toString()));
     }
   }
+//=-=-=-=-= Registration Loaded =-=-=-==-=
 
   Future<void> _onLoadRegistrtaion(
       RegistrationLoaded event, Emitter<RegistrationState> emit) async {
@@ -55,6 +58,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
       emit(state.copyWith(isStatus: ApiFetchStatus.failed));
     }
   }
+//=-=-=-=-= Registration Details =-=-=-==-=
 
   Future<void> _onLoadRegistrtaionDetail(
       RegistrationDetailEvent event, Emitter<RegistrationState> emit) async {
@@ -72,6 +76,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     }
   }
 
+//=-=-=-=-= Registration Deleted =-=-=-==-=
   Future<void> _onRegistrationDelete(
       RegistrationDelete event, Emitter<RegistrationState> emit) async {
     try {
@@ -79,10 +84,15 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
           id: event.id,
           studentId: event.studentId ?? 0,
           subjectId: event.subjectId ?? 0);
+
+      final updatedList = state.registrationList
+          ?.where((registration) => registration.id != event.id)
+          .toList();
       emit(state.copyWith(
         isStatus: ApiFetchStatus.success,
         deletionStatus: DeletionStatus.success,
         deletionMessage: message,
+        registrationList: updatedList,
       ));
     } catch (e) {
       emit(state.copyWith(

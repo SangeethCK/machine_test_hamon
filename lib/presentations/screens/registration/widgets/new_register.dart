@@ -31,7 +31,11 @@ class NewRegisterScreen extends StatelessWidget {
               );
 
               Navigator.pop(context);
-            } else if (state.isStatus == ApiFetchStatus.failed) {}
+            } else if (state.isStatus == ApiFetchStatus.failed) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.errorMessgae ?? '')),
+              );
+            }
           },
           child: Column(
             children: [

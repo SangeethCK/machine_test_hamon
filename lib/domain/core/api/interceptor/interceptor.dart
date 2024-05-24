@@ -41,6 +41,7 @@ class NetworkProvider {
           case DioExceptionType.connectionError:
           case DioExceptionType.sendTimeout:
           case DioExceptionType.receiveTimeout:
+          case DioExceptionType.badResponse:
             final Response response = await retryRequest(error.requestOptions);
             handler.resolve(response);
             break;
@@ -57,16 +58,37 @@ class NetworkProvider {
                 error: true);
             break;
           default:
+            final errorMessage = _parseErrorMessage(error.response?.data);
             return handler.next(DioException(
               requestOptions: error.requestOptions,
               response: error.response,
-              error: error.response?.data['message'] ??
-                  error.response?.data['error']['issues'][0]['message'] ??
-                  'Unknown error occurred',
+              error: errorMessage,
+            ));
+        }
+        switch (error.response?.statusCode) {
+          case 409:
+            kSnackBar(
+                content:
+                    'Unauthorized: Access is denied due to invalid token. Please try again!',
+                error: true);
+            break;
+          default:
+            final errorMessage = _parseErrorMessage(error.response?.data);
+            return handler.next(DioException(
+              requestOptions: error.requestOptions,
+              response: error.response,
+              error: errorMessage,
             ));
         }
       },
     ));
+  }
+  Future<Response<T>> retryRequest<T>(RequestOptions requestOptions) async {
+    try {
+      return await request<T>(requestOptions);
+    } catch (error) {
+      return Future.error(error);
+    }
   }
 
   Future<Response<T>> get<T>(
@@ -181,14 +203,6 @@ class NetworkProvider {
     }
   }
 
-  Future<Response<T>> retryRequest<T>(RequestOptions requestOptions) async {
-    try {
-      return await request<T>(requestOptions);
-    } catch (error) {
-      return Future.error(error);
-    }
-  }
-
   Future<Response<T>> request<T>(RequestOptions requestOptions) async {
     return _dio.request<T>(
       requestOptions.path,
@@ -215,5 +229,18 @@ class NetworkProvider {
         listFormat: requestOptions.listFormat,
       ),
     );
+  }
+}
+
+String _parseErrorMessage(dynamic data) {
+  if (data is Map<String, dynamic>) {
+    final errorData = data['error'];
+    if (errorData is Map<String, dynamic>) {
+      return errorData['message'] ?? 'Unknown error occurred';
+    } else {
+      return errorData ?? 'Unknown error occurred';
+    }
+  } else {
+    return data.toString();
   }
 }

@@ -8,12 +8,13 @@ class RegistrationEvent extends Equatable {
 }
 
 class NewRegistrationEvent extends RegistrationEvent {
-  const NewRegistrationEvent({this.studentId, this.subjectId});
+  const NewRegistrationEvent({this.studentId, this.subjectId,this.errorMesggae});
   final int? studentId;
   final int? subjectId;
+  final String? errorMesggae;
 
   @override
-  List<Object?> get props => [studentId, subjectId];
+  List<Object?> get props => [studentId, subjectId,errorMesggae];
 }
 
 class RegistrationLoaded extends RegistrationEvent {
