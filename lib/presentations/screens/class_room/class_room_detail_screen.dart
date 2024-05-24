@@ -5,11 +5,13 @@ import 'package:machine_test/applications/class_room/class_room_bloc.dart';
 import 'package:machine_test/applications/class_room/class_room_state.dart';
 import 'package:machine_test/domain/core/constant/colors.dart';
 import 'package:machine_test/domain/core/constant/images.dart';
+import 'package:machine_test/domain/core/constant/string_constant.dart';
 import 'package:machine_test/domain/models/class_room/update_classroom_subject_request.dart';
 import 'package:machine_test/domain/utilities/enums/api_fetch_status.dart';
 import 'package:machine_test/presentations/screens/subject/subject_screen.dart';
 import 'package:machine_test/presentations/widgets/appbar/appbar.dart';
 import 'package:machine_test/presentations/widgets/button/common_buttons.dart';
+import 'package:machine_test/presentations/widgets/snackbars/snackbar.dart';
 
 class ClassRoomDetailScreen extends StatelessWidget {
   const ClassRoomDetailScreen({super.key});
@@ -61,8 +63,6 @@ class ClassRoomDetailScreen extends StatelessWidget {
 
                                 if (selectedId != null &&
                                     selectedId.isNotEmpty) {
-                                  // WidgetsBinding.instance
-                                  //     .addPostFrameCallback((_) {
                                   context.read<ClassRoomBloc>().add(
                                       UpdateSelectedSubjectEvent(
                                           selectedId.last, selectedId.first));
@@ -80,10 +80,9 @@ class ClassRoomDetailScreen extends StatelessWidget {
                                       );
 
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text('SuccessFully Updated')),
-                                  );
-                                  //   });
+                                      commonSnackBar(
+                                          message: StringConstant
+                                              .successfullyPdated));
                                 }
                               },
                             );

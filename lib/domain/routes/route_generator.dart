@@ -3,9 +3,11 @@ import 'package:machine_test/domain/routes/routes.dart';
 import 'package:machine_test/presentations/screens/class_room/class_room.dart';
 import 'package:machine_test/presentations/screens/home/home_screen.dart';
 import 'package:machine_test/presentations/screens/registration/registration_screen.dart';
+import 'package:machine_test/presentations/screens/registration/new_register_screen.dart';
 import 'package:machine_test/presentations/screens/students/student_screen.dart';
 import 'package:machine_test/presentations/screens/students/widgets/student_detail.dart';
 import 'package:machine_test/presentations/screens/subject/subject_screen.dart';
+import 'package:machine_test/presentations/screens/subject/widgets/subject_details.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
@@ -19,9 +21,13 @@ class RouteGenerator {
       case subjects:
         return MaterialPageRoute(builder: (_) => const SubjectScreen());
       case classRoom:
-        return MaterialPageRoute(builder: (_) => ClassRoomScreen());
+        return MaterialPageRoute(builder: (_) => const ClassRoomScreen());
       case registration:
         return MaterialPageRoute(builder: (_) => const RegistrationScreen());
+      case newRegister:
+        return MaterialPageRoute(builder: (_) => const NewRegisterScreen());
+      case subjectDetail:
+        return MaterialPageRoute(builder: (_) => const SubjectDetailsScreen());
       // case classRoomDetail:
       //   return MaterialPageRoute(builder: (_) => const ClassRoomDetailScreen());
 

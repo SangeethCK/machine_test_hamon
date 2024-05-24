@@ -10,6 +10,7 @@ import 'package:machine_test/presentations/screens/students/student_screen.dart'
 import 'package:machine_test/presentations/widgets/appbar/appbar.dart';
 import 'package:machine_test/presentations/widgets/decartion/decartions.dart';
 import 'package:machine_test/presentations/widgets/padding/main_padding.dart';
+import 'package:machine_test/presentations/widgets/snackbars/snackbar.dart';
 
 class RegisterDetailScreen extends StatelessWidget {
   const RegisterDetailScreen({super.key});
@@ -21,18 +22,16 @@ class RegisterDetailScreen extends StatelessWidget {
       body: BlocListener<RegistrationBloc, RegistrationState>(
         listener: (context, state) {
           if (state.deletionStatus == DeletionStatus.success) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                  content:
-                      Text(state.deletionMessage ?? 'Successful deletion')),
-            );
+            ScaffoldMessenger.of(context).showSnackBar(commonSnackBar(
+                message: state.deletionMessage ?? '',
+                textColor: kWhite,
+                backgroundColor: kRedColor));
             Navigator.pop(context);
           } else if (state.deletionStatus == DeletionStatus.failure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                  content: Text(
-                      state.deletionMessage ?? 'Error deleting registration')),
-            );
+            ScaffoldMessenger.of(context).showSnackBar(commonSnackBar(
+                message: state.deletionMessage ?? '',
+                textColor: kWhite,
+                backgroundColor: kRedColor));
           }
         },
         child: BlocBuilder<RegistrationBloc, RegistrationState>(
@@ -40,9 +39,9 @@ class RegisterDetailScreen extends StatelessWidget {
             if (state.isStatus == ApiFetchStatus.loading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state.deletionStatus == DeletionStatus.success) {
-              return const Center(child: Text('Please try again'));
+              return Center(child: Text(StringConstant.plsTryAgin));
             } else if (state.isStatus == ApiFetchStatus.failed) {
-              return const Text('Please try again');
+              return Text(StringConstant.plsTryAgin);
             } else {
               return MainPadding(
                 child: Column(
@@ -58,7 +57,7 @@ class RegisterDetailScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Student Details',
+                            StringConstant.studentDetail,
                             style: FontPalette.paragraph3,
                           ),
                           10.verticalSpace,
@@ -66,7 +65,7 @@ class RegisterDetailScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Student No',
+                                StringConstant.stuentNo,
                                 style: FontPalette.labelLightText1,
                               ),
                               Text(
@@ -80,7 +79,7 @@ class RegisterDetailScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Subject No',
+                                StringConstant.subjectNo,
                                 style: FontPalette.labelLightText1,
                               ),
                               Text(
@@ -153,17 +152,17 @@ void _showDeleteConfirmationDialog(BuildContext context, Function onTap) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: const Text("Delete"),
-        content: const Text("Do you want to delete"),
+        title: Text(StringConstant.delete),
+        content: Text(StringConstant.deleteQuestion),
         actions: [
           TextButton(
-            child: const Text("No"),
+            child: Text(StringConstant.no),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
           TextButton(
-            child: const Text("Yes"),
+            child: Text(StringConstant.yes),
             onPressed: () {
               onTap();
               Navigator.pop(context);

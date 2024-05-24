@@ -14,6 +14,7 @@ import 'package:machine_test/presentations/screens/students/student_screen.dart'
 import 'package:machine_test/presentations/screens/subject/subject_screen.dart';
 import 'package:machine_test/presentations/widgets/appbar/appbar.dart';
 import 'package:machine_test/presentations/widgets/padding/main_padding.dart';
+import 'package:machine_test/presentations/widgets/snackbars/snackbar.dart';
 
 class NewRegisterScreen extends StatelessWidget {
   const NewRegisterScreen({super.key});
@@ -26,15 +27,14 @@ class NewRegisterScreen extends StatelessWidget {
         child: BlocListener<RegistrationBloc, RegistrationState>(
           listener: (context, state) {
             if (state.isStatus == ApiFetchStatus.success) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Registration successful!')),
-              );
+              ScaffoldMessenger.of(context).showSnackBar(commonSnackBar());
 
               Navigator.pop(context);
             } else if (state.isStatus == ApiFetchStatus.failed) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.errorMessgae ?? '')),
-              );
+              ScaffoldMessenger.of(context).showSnackBar(commonSnackBar(
+                  message: state.errorMessgae ?? '',
+                  textColor: kWhite,
+                  backgroundColor: kRedColor));
             }
           },
           child: Column(
@@ -57,7 +57,6 @@ class NewRegisterScreen extends StatelessWidget {
                         UpdateSelectedSubjectEvent(
                             selectedId.last, selectedId.first));
                   }
-                  log("Id  ${selectedId?.first}");
                 },
                 child: Container(
                   padding: const EdgeInsets.only(right: 10, left: 10),
@@ -71,16 +70,14 @@ class NewRegisterScreen extends StatelessWidget {
                     children: [
                       BlocBuilder<ClassRoomBloc, ClassRoomState>(
                         builder: (context, state) {
-                          return Text(
-                              state.selectedSubjectName ?? 'Select a subject');
+                          return Text(state.selectedSubjectName ??
+                              StringConstant.selectedSubject);
                         },
                       ),
-                      IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.arrow_forward_ios,
-                            color: Colors.black87,
-                          ))
+                      const Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.black87,
+                      )
                     ],
                   ),
                 ),
@@ -115,16 +112,14 @@ class NewRegisterScreen extends StatelessWidget {
                     children: [
                       BlocBuilder<ClassRoomBloc, ClassRoomState>(
                         builder: (context, state) {
-                          return Text(
-                              state.selectedStudentName ?? 'Select a Student');
+                          return Text(state.selectedStudentName ??
+                              StringConstant.selectedStudent);
                         },
                       ),
-                      IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.arrow_forward_ios,
-                            color: Colors.black87,
-                          )),
+                      const Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.black87,
+                      )
                     ],
                   ),
                 ),

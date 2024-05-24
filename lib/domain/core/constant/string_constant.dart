@@ -15,4 +15,17 @@ class StringConstant {
   static String studentDetail = 'Student Detail';
   static String subjectDetail = 'Subject Detail';
   static String classRoomDetai = 'ClassRoom Detail';
+  static String stuentNo = 'Student No';
+  static String subjectNo = 'Subject No';
+  static String delete = 'Delete';
+  static String deleteQuestion = 'Do you want to delete';
+  static String yes = 'Yes';
+  static String no = 'No';
+  static String plsTryAgin = 'Please try again';
+  static String selectedSubject = 'Select a subject';
+  static String selectedStudent = 'Select a Student';
+  static String seat = 'Seat';
+  static String classRoomCheck = 'Failed to load class room,Please try again';
+  static String loadedSubject = 'Press the button to load subject.';
+  static String successfullyPdated = 'SuccessFully Updated';
 }

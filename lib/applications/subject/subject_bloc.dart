@@ -14,33 +14,38 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
     on<SubjectDetailsLoadedEvent>(_onLoadStudentDetails);
   }
 
-  //=-=-=-= Subject =-=-=-=-=
   Future<void> _onLoadStudents(
       SubjectLoadedEvent event, Emitter<SubjectState> emit) async {
     emit(state.copyWith(isStatus: ApiFetchStatus.loading));
 
     log("${state.isStatus}");
-    try {
-      final subject = await SubjectRepository().loadSubjectList();
+    final subjectEither = await SubjectRepository().loadSubjectList();
 
-      emit(state.copyWith(
-          isStatus: ApiFetchStatus.success, subjectList: subject));
-    } catch (e) {
-      emit(state.copyWith(isStatus: ApiFetchStatus.failed));
-    }
+    subjectEither.fold(
+      (exception) {
+        emit(state.copyWith(isStatus: ApiFetchStatus.failed));
+      },
+      (subjectList) {
+        emit(state.copyWith(
+            isStatus: ApiFetchStatus.success, subjectList: subjectList));
+      },
+    );
   }
 
-  //=-=-= Student Details =-=-=-=
   Future<void> _onLoadStudentDetails(
       SubjectDetailsLoadedEvent event, Emitter<SubjectState> emit) async {
     emit(state.copyWith(isStatus: ApiFetchStatus.loading));
-    try {
-      final studentDetail =
-          await SubjectRepository().loadSubjectDetails(event.subjectId);
-      emit(state.copyWith(
-          subjectDetails: studentDetail, isStatus: ApiFetchStatus.success));
-    } catch (e) {
-      emit(state.copyWith(isStatus: ApiFetchStatus.failed));
-    }
+    final detailEither =
+        await SubjectRepository().loadSubjectDetails(event.subjectId);
+
+    detailEither.fold(
+      (exception) {
+        emit(state.copyWith(isStatus: ApiFetchStatus.failed));
+      },
+      (subjectDetail) {
+        emit(state.copyWith(
+            subjectDetails: subjectDetail, isStatus: ApiFetchStatus.success));
+      },
+    );
   }
 }

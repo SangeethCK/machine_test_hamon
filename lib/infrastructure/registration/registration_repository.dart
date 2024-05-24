@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:machine_test/domain/core/api/end_point/end_points.dart';
 import 'package:machine_test/domain/core/api/network/base_api.dart';
@@ -7,22 +8,26 @@ import 'package:machine_test/domain/models/registration/registration_detail_resp
 import 'package:machine_test/domain/models/registration/registration_response.dart';
 
 class RegistrationRepository extends BaseApi {
-  //=-=-=-=-= Registration List =-=-=-=-=
-  Future<List<Registration>> loadRegistration() async {
-    Response response = await get(EndPoints.registration);
-
-    switch (response.statusCode) {
-      case 200:
-        return (response.data['registrations'] as List)
-            .map((e) => Registration.fromJson(e))
-            .toList();
-      default:
-        return throw Exception('Error');
+  // Load Registration List
+  Future<Either<Exception, List<Registration>>> loadRegistration() async {
+    try {
+      Response response = await get(EndPoints.registration);
+      if (response.statusCode == 200) {
+        List<Registration> registrations =
+            (response.data['registrations'] as List)
+                .map((e) => Registration.fromJson(e))
+                .toList();
+        return Right(registrations);
+      } else {
+        return Left(Exception('Error'));
+      }
+    } catch (e) {
+      return Left(Exception('Error'));
     }
   }
 
-  //=-=-=-=-= Creation Registration =-=-=-=-=
-  Future<RegistrationResponse> createRegistration(
+  // Create Registration
+  Future<Either<Exception, RegistrationResponse>> createRegistration(
       int studentId, int subjectId) async {
     try {
       Response response = await post(
@@ -36,45 +41,50 @@ class RegistrationRepository extends BaseApi {
       log("Response status code: ${response.statusCode}");
 
       if (response.statusCode == 200) {
-        return RegistrationResponse.fromJson(response.data);
+        RegistrationResponse registrationResponse =
+            RegistrationResponse.fromJson(response.data);
+        return Right(registrationResponse);
       } else {
         final errorMessage = response.data['error'];
-        throw ConflictException(errorMessage);
+        return Left(Exception(errorMessage));
       }
-    } on ConflictException catch (e) {
-      throw ConflictException(e.message);
+    } catch (e) {
+      return Left(Exception('Error'));
     }
   }
 
-  //=-=-=-=-= Registration Detail =-=-=-=-=
-  Future<RegistrationDetailsResponse> loadRegistrationDetail(int id) async {
-    Response response = await get("${EndPoints.registration}/$id");
-    switch (response.statusCode) {
-      case 200:
-        return RegistrationDetailsResponse.fromJson(response.data);
-      default:
-        return throw Exception('Error');
+  // Load Registration Detail
+  Future<Either<Exception, RegistrationDetailsResponse>> loadRegistrationDetail(
+      int id) async {
+    try {
+      Response response = await get("${EndPoints.registration}/$id");
+      if (response.statusCode == 200) {
+        RegistrationDetailsResponse registrationDetailsResponse =
+            RegistrationDetailsResponse.fromJson(response.data);
+        return Right(registrationDetailsResponse);
+      } else {
+        return Left(Exception('Error'));
+      }
+    } catch (e) {
+      return Left(Exception('Error'));
     }
   }
 
-  //=-=-=-=-= Registration Delete =-=-=-=-=
-  Future<String> loadRegistrationDelete(
+  // Delete Registration
+  Future<Either<Exception, String>> loadRegistrationDelete(
       {int? id, int? subjectId, int? studentId}) async {
-    Response response = await delete("${EndPoints.registration}/$id", data: {
-      "student": studentId,
-      "subject": subjectId,
-    });
-    switch (response.statusCode) {
-      case 200:
-        return response.data['message'];
-      default:
-        throw Exception('Error');
+    try {
+      Response response = await delete("${EndPoints.registration}/$id", data: {
+        "student": studentId,
+        "subject": subjectId,
+      });
+      if (response.statusCode == 200) {
+        return Right(response.data['message']);
+      } else {
+        return Left(Exception('Error'));
+      }
+    } catch (e) {
+      return Left(Exception('Error'));
     }
   }
-}
-
-class ConflictException implements Exception {
-  final String message;
-
-  ConflictException(this.message);
 }

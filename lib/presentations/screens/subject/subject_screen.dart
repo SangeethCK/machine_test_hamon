@@ -7,17 +7,17 @@ import 'package:machine_test/applications/subject/subject_bloc.dart';
 import 'package:machine_test/applications/subject/subject_state.dart';
 import 'package:machine_test/domain/core/constant/colors.dart';
 import 'package:machine_test/domain/core/constant/string_constant.dart';
+import 'package:machine_test/domain/routes/routes.dart';
 import 'package:machine_test/domain/utilities/enums/api_fetch_status.dart';
 import 'package:machine_test/domain/utilities/font/font_palette.dart';
 import 'package:machine_test/presentations/screens/students/student_screen.dart';
-import 'package:machine_test/presentations/screens/subject/widgets/subject_details.dart';
 import 'package:machine_test/presentations/widgets/appbar/appbar.dart';
 import 'package:machine_test/presentations/widgets/padding/main_padding.dart';
+import 'package:machine_test/presentations/widgets/snackbars/snackbar.dart';
 
 class SubjectScreen extends StatefulWidget {
-  const SubjectScreen({super.key, this.isValue = false, this.id});
+  const SubjectScreen({super.key, this.isValue = false});
   final bool isValue;
-  final int? id;
 
   @override
   State<SubjectScreen> createState() => _SubjectScreenState();
@@ -40,8 +40,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
         listener: (context, state) {
           if (state.isStatus == ApiFetchStatus.failed) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Failed to load subject')),
-            );
+                commonSnackBar(message: StringConstant.failedSubject));
           }
         },
         child: MainPadding(
@@ -75,14 +74,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                           subjectId:
                                               state.subjectList?[index].id ??
                                                   0));
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            SubjectDetailsScreen(
-                                          id: state.subjectList?[index].id,
-                                        ),
-                                      ));
+
+                                  Navigator.pushNamed(context, subjectDetail);
                                 }
                               }
                             },
@@ -103,10 +96,10 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   ],
                 );
               } else if (state.isStatus == ApiFetchStatus.failed) {
-                return const Center(child: Text('Failed to load subject'));
+                return Center(child: Text(StringConstant.failedSubject));
               }
-              return const Center(
-                child: Text('Press the button to load subject.'),
+              return Center(
+                child: Text(StringConstant.loadedSubject),
               );
             },
           ),

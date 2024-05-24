@@ -44,6 +44,11 @@ class FontPalette {
     fontWeight: FontWeight.w500,
     letterSpacing: 0,
   );
+  static TextStyle heading6 = TextStyle(
+    fontSize: 20.sp,
+    fontWeight: FontWeight.w600,
+    letterSpacing: 0,
+  );
   static TextStyle label = TextStyle(
     fontSize: 12.sp,
     fontWeight: FontWeight.w500,

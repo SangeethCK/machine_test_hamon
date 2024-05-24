@@ -24,6 +24,7 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      toolbarHeight: 100,
       iconTheme: IconThemeData(
         color: iconColor,
         size: 20,
@@ -50,15 +51,18 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
           Navigator.canPop(context) ? 0 : NavigationToolbar.kMiddleSpacing,
       title: title == null
           ? null
-          : RichText(
-              text: TextSpan(
-                  text: StringConstant.hello,
-                  style: FontPalette.head1,
-                  children: [
-                  TextSpan(
-                      text: StringConstant.goodMorining,
-                      style: FontPalette.headSub2)
-                ])),
+          : SizedBox(
+              height: kToolbarHeight + 18,
+              child: RichText(
+                  text: TextSpan(
+                      text: StringConstant.hello,
+                      style: FontPalette.head1,
+                      children: [
+                    TextSpan(
+                        text: StringConstant.goodMorining,
+                        style: FontPalette.headSub2)
+                  ])),
+            ),
       centerTitle: centerTitle,
       actions: actionTitle != null
           ? [

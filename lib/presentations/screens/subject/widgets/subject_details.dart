@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:machine_test/applications/subject/subject_bloc.dart';
 import 'package:machine_test/applications/subject/subject_state.dart';
+import 'package:machine_test/domain/core/constant/images.dart';
 import 'package:machine_test/domain/core/constant/string_constant.dart';
 import 'package:machine_test/domain/utilities/enums/api_fetch_status.dart';
 import 'package:machine_test/presentations/screens/students/student_screen.dart';
@@ -30,7 +31,7 @@ class SubjectDetailsScreen extends StatelessWidget {
                         children: [
                           CircleAvatar(
                             radius: 50.sp,
-                            child: Image.asset('assets/images/Ellipse 1.png'),
+                            child: Image.asset(Assets.subjectImage),
                           ),
                           const SizedBox(height: 20),
                           Text(

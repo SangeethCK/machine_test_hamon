@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:machine_test/domain/core/api/end_point/end_points.dart';
 import 'package:machine_test/domain/core/api/network/base_api.dart';
@@ -7,39 +8,54 @@ import 'package:machine_test/domain/models/class_room/update_classroom_subject_r
 
 class ClassRoomRepostory extends BaseApi {
   //=-=-=-=-= Class Room -=-=-=
-  Future<List<Classroom>> loadClassRoom() async {
-    Response response = await get(EndPoints.classRommApi);
-    switch (response.statusCode) {
-      case 200:
-        return (response.data['classrooms'] as List)
+  Future<Either<Exception, List<Classroom>>> loadClassRoom() async {
+    try {
+      Response response = await get(EndPoints.classRommApi);
+      if (response.statusCode == 200) {
+        List<Classroom> classrooms = (response.data['classrooms'] as List)
             .map((e) => Classroom.fromJson(e))
             .toList();
-      default:
-        return throw Exception('Error');
-    }
-  }
-//=-=-=--=-= Class Room Detail =-=-=-=-=-=
-
-  Future<ClassRoomDetailResponse> loadClassRoomDetail(int id) async {
-    Response response = await get('${EndPoints.classRommDetailApi}$id');
-    switch (response.statusCode) {
-      case 200:
-        return ClassRoomDetailResponse.fromJson(response.data);
-      default:
-        return throw Exception('Error');
+        return Right(classrooms);
+      } else {
+        return Left(Exception('Error'));
+      }
+    } catch (e) {
+      return Left(Exception('Error'));
     }
   }
 
-//=-=-=--=-= Class Room Updates =-=-=-=-=-=
-  Future<UpdateSubjectRequest> updateClassRoomSubject(
+  //=-=-=--=-= Class Room Detail =-=-=-=-=-=
+  Future<Either<Exception, ClassRoomDetailResponse>> loadClassRoomDetail(
+      int id) async {
+    try {
+      Response response = await get('${EndPoints.classRommDetailApi}$id');
+      if (response.statusCode == 200) {
+        ClassRoomDetailResponse classRoomDetailResponse =
+            ClassRoomDetailResponse.fromJson(response.data);
+        return Right(classRoomDetailResponse);
+      } else {
+        return Left(Exception('Error'));
+      }
+    } catch (e) {
+      return Left(Exception('Error'));
+    }
+  }
+
+  //=-=-=--=-= Class Room Updates =-=-=-=-=-=
+  Future<Either<Exception, UpdateSubjectRequest>> updateClassRoomSubject(
       int id, UpdateSubjectRequest updateData) async {
-    Response response =
-        await patch('${EndPoints.classRommApi}$id', data: updateData.toJson());
-    switch (response.statusCode) {
-      case 200:
-        return UpdateSubjectRequest.fromJson(response.data);
-      default:
-        return throw Exception('Error');
+    try {
+      Response response = await patch('${EndPoints.classRommApi}$id',
+          data: updateData.toJson());
+      if (response.statusCode == 200) {
+        UpdateSubjectRequest updatedData =
+            UpdateSubjectRequest.fromJson(response.data);
+        return Right(updatedData);
+      } else {
+        return Left(Exception('Error'));
+      }
+    } catch (e) {
+      return Left(Exception('Error'));
     }
   }
 }

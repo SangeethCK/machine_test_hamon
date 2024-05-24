@@ -9,7 +9,8 @@ import 'package:machine_test/applications/subject/subject_bloc.dart';
 import 'package:machine_test/domain/routes/route_generator.dart';
 import 'package:machine_test/domain/routes/routes.dart';
 import 'package:machine_test/presentations/screens/home/home_screen.dart';
-import 'package:machine_test/presentations/widgets/snackbars/snackbar.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() {
   runApp(const MyApp());
