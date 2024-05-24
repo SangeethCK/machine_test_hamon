@@ -29,12 +29,9 @@ class NewRegisterScreen extends StatelessWidget {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Registration successful!')),
               );
+
               Navigator.pop(context);
-            } else if (state.isStatus == ApiFetchStatus.failed) {
-              // ScaffoldMessenger.of(context).showSnackBar(
-              //   SnackBar(content: Text(state.errorMessage)),
-              // );
-            }
+            } else if (state.isStatus == ApiFetchStatus.failed) {}
           },
           child: Column(
             children: [

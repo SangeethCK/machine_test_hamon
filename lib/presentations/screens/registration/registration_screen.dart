@@ -3,15 +3,13 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:machine_test/applications/class_room/class_room_bloc.dart';
 import 'package:machine_test/applications/registration/registration_bloc.dart';
-import 'package:machine_test/applications/subject/subject_bloc.dart';
-import 'package:machine_test/applications/subject/subject_state.dart';
 import 'package:machine_test/domain/core/constant/colors.dart';
 import 'package:machine_test/domain/core/constant/string_constant.dart';
 import 'package:machine_test/domain/models/registration/registration_response.dart';
 import 'package:machine_test/domain/utilities/enums/api_fetch_status.dart';
 import 'package:machine_test/domain/utilities/font/font_palette.dart';
-import 'package:machine_test/presentations/screens/class_room/class_room.dart';
 import 'package:machine_test/presentations/screens/registration/widgets/new_register.dart';
 import 'package:machine_test/presentations/screens/registration/widgets/registerDetail.dart';
 import 'package:machine_test/presentations/screens/students/student_screen.dart';
@@ -71,6 +69,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               .read<RegistrationBloc>()
                               .add(const RegistrationLoaded());
                         }
+                        context
+                            .read<ClassRoomBloc>()
+                            .add(ClearClassRoomStateEvent());
                       },
                       title: StringConstant.newRegistration),
                   40.verticalSpace,

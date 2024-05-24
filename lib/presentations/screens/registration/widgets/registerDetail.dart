@@ -18,85 +18,104 @@ class RegisterDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppbarWidget(),
-      body: BlocBuilder<RegistrationBloc, RegistrationState>(
-        builder: (context, state) {
-          if (state.isStatus == ApiFetchStatus.loading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state.deletionStatus == DeletionStatus.success) {
-            return SnackBar(
-                content: Text(state.deletionMessage ?? 'successfull'));
-          } else if (state.isStatus == ApiFetchStatus.failed) {
-            return const Text('Please try again');
-          } else {
-            return MainPadding(
-              child: Column(
-                children: [
-                  headTitle(StringConstant.registration),
-                  20.verticalSpace,
-                  Container(
-                    padding:
-                        const EdgeInsets.only(right: 10, left: 10, top: 10),
-                    height: 100.sp,
-                    decoration: cardDecartion,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Student Details',
-                          style: FontPalette.paragraph3,
-                        ),
-                        10.verticalSpace,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Student No',
-                              style: FontPalette.labelLightText1,
-                            ),
-                            Text(
-                              state.regDetail?.student.toString() ?? '',
-                              style: FontPalette.labelLightText1,
-                            ),
-                          ],
-                        ),
-                        10.verticalSpace,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Subject No',
-                              style: FontPalette.labelLightText1,
-                            ),
-                            Text(
-                              state.regDetail?.subject.toString() ?? '',
-                              style: FontPalette.labelLightText1,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Spacer(),
-                  commonButton(
-                    textColor: kWhite,
-                    backgroudColor: kRedColor,
-                    onTap: () {
-                      _showDeleteConfirmationDialog(context, () {
-                        context.read<RegistrationBloc>().add(RegistrationDelete(
-                              id: state.regDetail?.id,
-                              studentId: state.regDetail?.student,
-                              subjectId: state.regDetail?.subject,
-                            ));
-                      });
-                    },
-                    title: StringConstant.deleteRegisrtaion,
-                  ),
-                  30.verticalSpace
-                ],
-              ),
+      body: BlocListener<RegistrationBloc, RegistrationState>(
+        listener: (context, state) {
+          if (state.deletionStatus == DeletionStatus.success) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                  content:
+                      Text(state.deletionMessage ?? 'Successful deletion')),
+            );
+            Navigator.pop(context);
+          } else if (state.deletionStatus == DeletionStatus.failure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                  content: Text(
+                      state.deletionMessage ?? 'Error deleting registration')),
             );
           }
         },
+        child: BlocBuilder<RegistrationBloc, RegistrationState>(
+          builder: (context, state) {
+            if (state.isStatus == ApiFetchStatus.loading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state.deletionStatus == DeletionStatus.success) {
+              return const Center(child: Text('Please try again'));
+            } else if (state.isStatus == ApiFetchStatus.failed) {
+              return const Text('Please try again');
+            } else {
+              return MainPadding(
+                child: Column(
+                  children: [
+                    headTitle(StringConstant.registration),
+                    20.verticalSpace,
+                    Container(
+                      padding:
+                          const EdgeInsets.only(right: 10, left: 10, top: 10),
+                      height: 100.sp,
+                      decoration: cardDecartion,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Student Details',
+                            style: FontPalette.paragraph3,
+                          ),
+                          10.verticalSpace,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Student No',
+                                style: FontPalette.labelLightText1,
+                              ),
+                              Text(
+                                state.regDetail?.student.toString() ?? '',
+                                style: FontPalette.labelLightText1,
+                              ),
+                            ],
+                          ),
+                          10.verticalSpace,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Subject No',
+                                style: FontPalette.labelLightText1,
+                              ),
+                              Text(
+                                state.regDetail?.subject.toString() ?? '',
+                                style: FontPalette.labelLightText1,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Spacer(),
+                    commonButton(
+                      textColor: kWhite,
+                      backgroudColor: kRedColor,
+                      onTap: () {
+                        _showDeleteConfirmationDialog(context, () {
+                          context
+                              .read<RegistrationBloc>()
+                              .add(RegistrationDelete(
+                                id: state.regDetail?.id,
+                                studentId: state.regDetail?.student,
+                                subjectId: state.regDetail?.subject,
+                              ));
+                        });
+                      },
+                      title: StringConstant.deleteRegisrtaion,
+                    ),
+                    30.verticalSpace
+                  ],
+                ),
+              );
+            }
+          },
+        ),
       ),
     );
   }

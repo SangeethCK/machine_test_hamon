@@ -8,7 +8,7 @@ class StringConstant {
   static String hello = 'Hello,\n';
   static String goodMorining = 'Good Moring';
   static String newRegistration = 'New Registration';
-  static String deleteRegisrtaion = 'New Registration';
+  static String deleteRegisrtaion = 'Delete';
   static String add = 'Add';
   static String addSubject = 'Add Subject';
   static String failedSubject = 'Fail to load subject';

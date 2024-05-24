@@ -16,6 +16,7 @@ class ClassRoomBloc extends Bloc<ClassRoomEvent, ClassRoomState> {
     on<UpdateSubjectEvent>(_onUpdateClassRoomSubject);
     on<UpdateSelectedSubjectEvent>(_onUpdateSelectedSubject);
     on<UpdateSelectedStudentEvent>(_onUpdateSelectedStudent);
+    on<ClearClassRoomStateEvent>(_onClearClassRoomState);
   }
 
   //=-=-=-= Students =-=-=-=-=
@@ -73,5 +74,10 @@ class ClassRoomBloc extends Bloc<ClassRoomEvent, ClassRoomState> {
     emit(state.copyWith(
         selectedStudentName: event.selectedStudentName,
         studentId: event.selectedStudentId));
+  }
+
+  Future<void> _onClearClassRoomState(
+      ClearClassRoomStateEvent event, Emitter<ClassRoomState> emit) async {
+    emit(ClassRoomInitial());
   }
 }

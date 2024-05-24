@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:machine_test/domain/core/api/interceptor/interceptor.dart';
-import 'package:machine_test/domain/models/class_room/class_room_response.dart';
 import 'package:machine_test/domain/models/registration/registration_detail_response.dart';
 import 'package:machine_test/domain/models/registration/registration_response.dart';
 

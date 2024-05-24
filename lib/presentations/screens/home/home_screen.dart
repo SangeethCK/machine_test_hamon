@@ -20,7 +20,6 @@ class HomeScreen extends StatelessWidget {
       create: (context) => HomeBloc(),
       child: Scaffold(
         appBar: AppbarWidget(
-          
           title: 'Name',
           actions: [
             BlocBuilder<HomeBloc, HomeState>(
@@ -108,28 +107,46 @@ class HomeScreen extends StatelessWidget {
                           itemCount: 4,
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
-                            return Container(
-                              padding:
-                                  const EdgeInsets.only(right: 10, left: 10),
-                              margin: const EdgeInsets.only(
-                                  right: 10, left: 10, top: 10, bottom: 10),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: index == 0
-                                    ? kFillLight1Color
-                                    : index == 1
-                                        ? kFillLight2Color
-                                        : index == 2
-                                            ? kFillLight3Color
-                                            : kFillLight4Color,
-                              ),
-                              width: 358.sp,
-                              height: 48.sp,
-                              child: Center(
-                                child: Text(
-                                  homeList[index].name,
-                                  textAlign: TextAlign.center,
-                                  style: FontPalette.typoGraphy,
+                            return InkWell(
+                              onTap: () {
+                                switch (index) {
+                                  case 0:
+                                    Navigator.pushNamed(context, student);
+                                    break;
+                                  case 1:
+                                    Navigator.pushNamed(context, subjects);
+                                    break;
+                                  case 2:
+                                    Navigator.pushNamed(context, classRoom);
+                                    break;
+                                  case 3:
+                                    Navigator.pushNamed(context, registration);
+                                  default:
+                                }
+                              },
+                              child: Container(
+                                padding:
+                                    const EdgeInsets.only(right: 10, left: 10),
+                                margin: const EdgeInsets.only(
+                                    right: 10, left: 10, top: 10, bottom: 10),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: index == 0
+                                      ? kFillLight1Color
+                                      : index == 1
+                                          ? kFillLight2Color
+                                          : index == 2
+                                              ? kFillLight3Color
+                                              : kFillLight4Color,
+                                ),
+                                width: 358.sp,
+                                height: 48.sp,
+                                child: Center(
+                                  child: Text(
+                                    homeList[index].name,
+                                    textAlign: TextAlign.center,
+                                    style: FontPalette.typoGraphy,
+                                  ),
                                 ),
                               ),
                             );

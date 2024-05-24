@@ -48,3 +48,5 @@ class UpdateSelectedStudentEvent extends ClassRoomEvent {
   @override
   List<Object?> get props => [selectedStudentName, selectedStudentId];
 }
+
+class ClearClassRoomStateEvent extends ClassRoomEvent {}
