@@ -70,6 +70,7 @@ class ClassRoomBloc extends Bloc<ClassRoomEvent, ClassRoomState> {
             orElse: () => SubjectList(),
           );
           emit(state.copyWith(
+            selectedTeacherName: selectedSubject.teacher,
             selectedSubjectName: selectedSubject.name ?? '',
             subjectId: selectedSubject.id ?? 0,
             classDetail: classRoomDetailResult
@@ -112,9 +113,9 @@ class ClassRoomBloc extends Bloc<ClassRoomEvent, ClassRoomState> {
   Future<void> _onUpdateSelectedSubject(
       UpdateSelectedSubjectEvent event, Emitter<ClassRoomState> emit) async {
     emit(state.copyWith(
-      selectedSubjectName: event.selectedSubjectName,
-      subjectId: event.selectedSubjectId,
-    ));
+        selectedSubjectName: event.selectedSubjectName,
+        subjectId: event.selectedSubjectId,
+        selectedTeacherName: event.selectedPersonName));
   }
 //=-=-=-==-= Class Room Student =-=-=-=-=
 
@@ -137,6 +138,7 @@ class ClassRoomBloc extends Bloc<ClassRoomEvent, ClassRoomState> {
     emit(state.copyWith(
       selectedSubjectName: null,
       subjectId: null,
+      selectedTeacherName: null,
     ));
   }
 

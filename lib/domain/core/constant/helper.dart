@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:machine_test/domain/core/constant/images.dart';
 import 'package:machine_test/domain/core/constant/string_constant.dart';
+import 'package:machine_test/domain/utilities/font/font_palette.dart';
 
 class Demo {
   String name;
@@ -16,3 +18,10 @@ List<Demo> homeList = [
   Demo(name: StringConstant.classRoom, icon: Assets.classRoomIcon),
   Demo(name: StringConstant.registration, icon: Assets.registrationIcon)
 ];
+Widget headTitle(String title) {
+  return Center(
+      child: Text(
+    title,
+    style: FontPalette.heading2,
+  ));
+}

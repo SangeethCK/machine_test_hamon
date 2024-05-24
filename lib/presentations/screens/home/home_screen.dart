@@ -50,7 +50,7 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   state is GridViewState == false
                       ? GridView.builder(
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: homeList.length,
                           shrinkWrap: true,
                           gridDelegate:

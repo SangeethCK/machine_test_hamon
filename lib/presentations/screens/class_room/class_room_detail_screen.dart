@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -43,6 +45,7 @@ class ClassRoomDetailScreen extends StatelessWidget {
                         BlocBuilder<ClassRoomBloc, ClassRoomState>(
                           builder: (context, state) {
                             return CommonLightCard(
+                              subTitle: state.selectedTeacherName ?? '',
                               titleAd: state.selectedSubjectName != null
                                   ? 'Change'
                                   : 'Add',
@@ -60,12 +63,16 @@ class ClassRoomDetailScreen extends StatelessWidget {
                                     },
                                   ),
                                 );
+                                log("Id ${selectedId?[0]}");
+                                log("Name ${selectedId?[1]}");
+
+                                log("Subject ${selectedId?[2]}");
 
                                 if (selectedId != null &&
                                     selectedId.isNotEmpty) {
                                   context.read<ClassRoomBloc>().add(
-                                      UpdateSelectedSubjectEvent(
-                                          selectedId.last, selectedId.first));
+                                      UpdateSelectedSubjectEvent(selectedId[0],
+                                          selectedId[1], selectedId[2]));
                                   context.read<ClassRoomBloc>().add(
                                         UpdateSubjectEvent(
                                             updateRequest: UpdateSubjectRequest(

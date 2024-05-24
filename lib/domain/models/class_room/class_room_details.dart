@@ -3,7 +3,7 @@ class ClassRoomDetailResponse {
   final String? layout;
   String? name;
   final int? size;
-  var subject;
+  dynamic subject;
   String? subjectName;
 
   ClassRoomDetailResponse({
@@ -20,7 +20,7 @@ class ClassRoomDetailResponse {
     String? layout,
     String? name,
     int? size,
-    var subject,
+    dynamic subject,
     String? subjectName,
   }) =>
       ClassRoomDetailResponse(

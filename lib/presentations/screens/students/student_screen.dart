@@ -3,79 +3,89 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:machine_test/applications/students/students_bloc.dart';
 import 'package:machine_test/domain/core/constant/colors.dart';
+import 'package:machine_test/domain/core/constant/helper.dart';
+import 'package:machine_test/domain/core/constant/string_constant.dart';
 import 'package:machine_test/domain/models/student/student_response.dart';
 import 'package:machine_test/domain/utilities/enums/api_fetch_status.dart';
 import 'package:machine_test/domain/utilities/font/font_palette.dart';
 import 'package:machine_test/presentations/screens/students/widgets/student_detail.dart';
 import 'package:machine_test/presentations/widgets/appbar/appbar.dart';
 import 'package:machine_test/presentations/widgets/padding/main_padding.dart';
+import 'package:machine_test/presentations/widgets/snackbars/snackbar.dart';
 
-class StudentScreen extends StatelessWidget {
+class StudentScreen extends StatefulWidget {
   const StudentScreen({super.key, this.isStudent});
   final bool? isStudent;
+
+  @override
+  State<StudentScreen> createState() => _StudentScreenState();
+}
+
+class _StudentScreenState extends State<StudentScreen> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<StudentsBloc>().add(LoadStudentsEvent());
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppbarWidget(),
-      body: BlocProvider(
-        create: (context) => StudentsBloc()..add(LoadStudentsEvent()),
-        child: BlocConsumer<StudentsBloc, StudentsState>(
-          listener: (context, state) {
-            if (state.getStatus == ApiFetchStatus.failed) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Failed to load students')),
-              );
-            }
-          },
-          builder: (context, state) {
-            if (state.getStatus == ApiFetchStatus.loading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state.getStatus == ApiFetchStatus.success) {
-              return MainPadding(
-                top: 10,
-                child: Column(
-                  children: [
-                    headTitle('Students'),
-                    Expanded(
-                      child: ListView.builder(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: state.students?.length ?? 0,
-                        itemBuilder: (context, index) {
-                          final student = state.students![index];
-                          return InkWell(
-                            onTap: () {
-                              if (isStudent == true) {
-                                Navigator.pop(
-                                    context, [student.id, student.name]);
-                              } else {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => StudentDetailScreen(
-                                        id: student.id ?? 0),
-                                  ),
-                                );
-                              }
-
-                              // Navigator.pushNamed(context, studentDetail,
-                              //     arguments: student.id);
-                            },
-                            child: _studentsCard(student),
-                          );
-                        },
-                      ),
+      body: BlocConsumer<StudentsBloc, StudentsState>(
+        listener: (context, state) {
+          if (state.getStatus == ApiFetchStatus.failed) {
+            ScaffoldMessenger.of(context).showSnackBar(commonSnackBar(
+              message: StringConstant.faildTostudent,
+            ));
+          }
+        },
+        builder: (context, state) {
+          if (state.getStatus == ApiFetchStatus.loading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state.getStatus == ApiFetchStatus.success) {
+            return MainPadding(
+              top: 10,
+              child: Column(
+                children: [
+                  headTitle(StringConstant.students),
+                  Expanded(
+                    child: ListView.builder(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: state.students?.length ?? 0,
+                      itemBuilder: (context, index) {
+                        final student = state.students![index];
+                        return InkWell(
+                          onTap: () {
+                            if (widget.isStudent == true) {
+                              Navigator.pop(
+                                  context, [student.id, student.name]);
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      StudentDetailScreen(id: student.id ?? 0),
+                                ),
+                              );
+                            }
+                          },
+                          child: _studentsCard(student),
+                        );
+                      },
                     ),
-                  ],
-                ),
-              );
-            } else if (state.getStatus == ApiFetchStatus.failed) {
-              return const Center(child: Text('Failed to load students'));
-            }
-            return const Center(
-                child: Text('Press the button to load students.'));
-          },
-        ),
+                  ),
+                ],
+              ),
+            );
+          } else if (state.getStatus == ApiFetchStatus.failed) {
+            return Center(child: Text(StringConstant.faildTostudent));
+          }
+          return Center(child: Text(StringConstant.pressedTheloadstudent));
+        },
       ),
     );
   }
@@ -115,12 +125,4 @@ Widget _studentsCard(StudentList student) {
       ],
     ),
   );
-}
-
-Widget headTitle(String title) {
-  return Center(
-      child: Text(
-    title,
-    style: FontPalette.heading2,
-  ));
 }

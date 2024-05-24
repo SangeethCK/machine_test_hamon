@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
-import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:machine_test/domain/models/registration/registration_detail_response.dart';
 import 'package:machine_test/domain/models/registration/registration_response.dart';

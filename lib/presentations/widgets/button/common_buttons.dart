@@ -6,9 +6,14 @@ import 'package:machine_test/domain/utilities/font/font_palette.dart';
 
 class CommonLightCard extends StatelessWidget {
   const CommonLightCard(
-      {super.key, this.title, required this.onTap, this.titleAd});
+      {super.key,
+      this.title,
+      required this.onTap,
+      this.titleAd,
+      this.subTitle});
   final String? title;
   final String? titleAd;
+  final String? subTitle;
   final Function onTap;
 
   @override
@@ -26,6 +31,7 @@ class CommonLightCard extends StatelessWidget {
             title ?? StringConstant.addSubject,
             style: FontPalette.labelText3,
           ),
+          subtitle: Text(subTitle ?? ''),
           trailing: InkWell(
             onTap: () async {
               onTap();

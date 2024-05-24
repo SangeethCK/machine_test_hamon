@@ -10,7 +10,7 @@ SnackBar commonSnackBar(
     behavior: SnackBarBehavior.floating,
     content: Text(
       message ?? 'Registration Successful!',
-      style: FontPalette.heading6.copyWith(color: textColor ?? kGreenColor),
+      style: FontPalette.body2.copyWith(color: textColor ?? kGreenColor),
     ),
   );
 }

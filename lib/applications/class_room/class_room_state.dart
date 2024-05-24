@@ -13,7 +13,8 @@ class ClassRoomState extends Equatable {
       this.selectedSubjectName,
       this.selectedStudentName,
       this.studentId,
-      this.subjectId});
+      this.subjectId,
+      this.selectedTeacherName});
 
   final List<Classroom>? classRoomList;
   final ApiFetchStatus? isStatus;
@@ -21,6 +22,8 @@ class ClassRoomState extends Equatable {
   final UpdateSubjectRequest? updateSubjectRequest;
   final String? selectedSubjectName;
   final String? selectedStudentName;
+  final String? selectedTeacherName;
+
   final int? studentId;
   final int? subjectId;
 
@@ -32,6 +35,7 @@ class ClassRoomState extends Equatable {
         updateSubjectRequest,
         selectedSubjectName,
         selectedStudentName,
+        selectedTeacherName,
         subjectId,
         studentId,
       ];
@@ -41,7 +45,8 @@ class ClassRoomState extends Equatable {
     ClassRoomDetailResponse? classDetail,
     UpdateSubjectRequest? updateSubjectRequest,
     String? selectedSubjectName,
-    String? selectedStudentName,
+    String? selectedTeacherName,
+    final String? selectedStudentName,
     int? studentId,
     int? subjectId,
   }) {
@@ -53,7 +58,8 @@ class ClassRoomState extends Equatable {
         selectedSubjectName: selectedSubjectName ?? this.selectedSubjectName,
         selectedStudentName: selectedStudentName ?? this.selectedStudentName,
         studentId: studentId ?? studentId,
-        subjectId: subjectId ?? this.subjectId);
+        subjectId: subjectId ?? this.subjectId,
+        selectedTeacherName: selectedTeacherName ?? this.selectedTeacherName);
   }
 }
 

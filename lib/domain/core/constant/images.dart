@@ -11,5 +11,5 @@ class Assets {
   static String sitingChairLeft = 'assets/images/sitting-on-a-chair 1.png';
   static String sitingChairRight = 'assets/images/sitting-on-a-chair 9.png';
   static String studnetImage = 'assets/images/Ellipse 1 (1).png';
-  static String subjectImage = 'assets/images/Ellipse 1.png';
+  static String subjectImage = 'assets/images/subjectIcons.png';
 }

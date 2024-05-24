@@ -5,12 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:machine_test/applications/class_room/class_room_bloc.dart';
 import 'package:machine_test/applications/registration/registration_bloc.dart';
+import 'package:machine_test/domain/core/constant/helper.dart';
 import 'package:machine_test/domain/core/constant/string_constant.dart';
 import 'package:machine_test/domain/routes/routes.dart';
 import 'package:machine_test/domain/utilities/enums/api_fetch_status.dart';
+import 'package:machine_test/domain/utilities/font/font_palette.dart';
 
 import 'package:machine_test/presentations/screens/registration/widgets/register_card_widget.dart';
-import 'package:machine_test/presentations/screens/students/student_screen.dart';
 import 'package:machine_test/presentations/widgets/appbar/appbar.dart';
 import 'package:machine_test/presentations/widgets/button/common_buttons.dart';
 import 'package:machine_test/presentations/widgets/padding/main_padding.dart';
@@ -48,14 +49,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 children: [
                   headTitle(StringConstant.registration),
                   Expanded(
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: state.registrationList?.length,
-                        itemBuilder: (context, index) {
-                          final data = state.registrationList?[index];
-                          log(data?.student.toString() ?? '');
-                          return RegistrationListCard(data: data);
-                        }),
+                    child: (state.registrationList?.isEmpty ?? true)
+                        ? Center(
+                            child: Text(
+                              StringConstant.noFound,
+                              style: FontPalette.labelText1,
+                            ),
+                          )
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: state.registrationList?.length,
+                            itemBuilder: (context, index) {
+                              final data = state.registrationList?[index];
+                              log(data?.student.toString() ?? '');
+                              return RegistrationListCard(data: data);
+                            }),
                   ),
                   commonButton(
                       onTap: () async {

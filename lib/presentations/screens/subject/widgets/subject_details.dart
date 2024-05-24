@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:machine_test/applications/subject/subject_bloc.dart';
 import 'package:machine_test/applications/subject/subject_state.dart';
+import 'package:machine_test/domain/core/constant/helper.dart';
 import 'package:machine_test/domain/core/constant/images.dart';
 import 'package:machine_test/domain/core/constant/string_constant.dart';
 import 'package:machine_test/domain/utilities/enums/api_fetch_status.dart';
-import 'package:machine_test/presentations/screens/students/student_screen.dart';
 import 'package:machine_test/presentations/widgets/appbar/appbar.dart';
 
 class SubjectDetailsScreen extends StatelessWidget {

@@ -19,56 +19,6 @@ class FontPalette {
         fontFamily: FontPalette.themeFont);
   }
 
-  static TextStyle heading1 = TextStyle(
-    fontSize: 64.sp,
-    fontWeight: FontWeight.w600,
-    letterSpacing: 0,
-  );
-  // static TextStyle heading2 = TextStyle(
-  //   fontSize: 44.sp,
-  //   fontWeight: FontWeight.w600,
-  //   letterSpacing: 0,
-  // );
-  static TextStyle heading3 = TextStyle(
-    fontSize: 32.sp,
-    fontWeight: FontWeight.w600,
-    letterSpacing: 0,
-  );
-  static TextStyle heading4 = TextStyle(
-    fontSize: 24.sp,
-    fontWeight: FontWeight.w600,
-    letterSpacing: 0,
-  );
-  static TextStyle heading5 = TextStyle(
-    fontSize: 20.sp,
-    fontWeight: FontWeight.w500,
-    letterSpacing: 0,
-  );
-  static TextStyle heading6 = TextStyle(
-    fontSize: 20.sp,
-    fontWeight: FontWeight.w600,
-    letterSpacing: 0,
-  );
-  static TextStyle label = TextStyle(
-    fontSize: 12.sp,
-    fontWeight: FontWeight.w500,
-    letterSpacing: 0,
-  );
-  static TextStyle title = TextStyle(
-    fontSize: 16.sp,
-    fontWeight: FontWeight.w500,
-    letterSpacing: 0,
-  );
-  static TextStyle subTitle = TextStyle(
-    fontSize: 12.sp,
-    fontWeight: FontWeight.w600,
-    letterSpacing: 0,
-  );
-  static TextStyle menuItem = TextStyle(
-    fontSize: 12.sp,
-    fontWeight: FontWeight.w500,
-    letterSpacing: 0,
-  );
   static TextStyle input = TextStyle(
     fontSize: 14.sp,
     fontWeight: FontWeight.w500,

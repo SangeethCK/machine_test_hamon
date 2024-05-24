@@ -28,4 +28,9 @@ class StringConstant {
   static String classRoomCheck = 'Failed to load class room,Please try again';
   static String loadedSubject = 'Press the button to load subject.';
   static String successfullyPdated = 'SuccessFully Updated';
+  static String noFound = 'No Found';
+  static String faildTostudent = 'Failed to load students';
+  static String pressedTheloadstudent = 'Press the button to load students.';
+  static String faildtostudentdetail = 'Failed to load student details';
+  static String fialedStudent = 'Failed to load student details';
 }

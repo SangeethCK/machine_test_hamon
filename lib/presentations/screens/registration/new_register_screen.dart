@@ -7,6 +7,7 @@ import 'package:machine_test/applications/class_room/class_room_bloc.dart';
 import 'package:machine_test/applications/class_room/class_room_state.dart';
 import 'package:machine_test/applications/registration/registration_bloc.dart';
 import 'package:machine_test/domain/core/constant/colors.dart';
+import 'package:machine_test/domain/core/constant/helper.dart';
 import 'package:machine_test/domain/core/constant/string_constant.dart';
 import 'package:machine_test/domain/utilities/enums/api_fetch_status.dart';
 import 'package:machine_test/domain/utilities/font/font_palette.dart';
@@ -55,7 +56,7 @@ class NewRegisterScreen extends StatelessWidget {
                   if (selectedId != null && selectedId.isNotEmpty) {
                     context.read<ClassRoomBloc>().add(
                         UpdateSelectedSubjectEvent(
-                            selectedId.last, selectedId.first));
+                            selectedId[0], selectedId[1], selectedId[2]));
                   }
                 },
                 child: Container(

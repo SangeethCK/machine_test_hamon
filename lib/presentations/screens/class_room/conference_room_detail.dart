@@ -43,7 +43,11 @@ class ConferenceRoomDetailScreen extends StatelessWidget {
                         BlocBuilder<ClassRoomBloc, ClassRoomState>(
                           builder: (context, state) {
                             return CommonLightCard(
-                              title: state.classDetail?.subject == ''
+                              subTitle: state.selectedTeacherName ?? '',
+                              titleAd: state.selectedSubjectName != null
+                                  ? 'Change'
+                                  : 'Add',
+                              title: state.selectedSubjectName == ''
                                   ? 'Add Subject'
                                   : state.selectedSubjectName,
                               onTap: () async {
@@ -60,8 +64,8 @@ class ConferenceRoomDetailScreen extends StatelessWidget {
                                 if (selectedId != null &&
                                     selectedId.isNotEmpty) {
                                   context.read<ClassRoomBloc>().add(
-                                      UpdateSelectedSubjectEvent(
-                                          selectedId.last, selectedId.first));
+                                      UpdateSelectedSubjectEvent(selectedId[0],
+                                          selectedId[1], selectedId[2]));
                                   log('message');
                                   WidgetsBinding.instance
                                       .addPostFrameCallback((_) {

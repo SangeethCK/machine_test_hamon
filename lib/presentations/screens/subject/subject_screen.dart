@@ -6,11 +6,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:machine_test/applications/subject/subject_bloc.dart';
 import 'package:machine_test/applications/subject/subject_state.dart';
 import 'package:machine_test/domain/core/constant/colors.dart';
+import 'package:machine_test/domain/core/constant/helper.dart';
 import 'package:machine_test/domain/core/constant/string_constant.dart';
 import 'package:machine_test/domain/routes/routes.dart';
 import 'package:machine_test/domain/utilities/enums/api_fetch_status.dart';
 import 'package:machine_test/domain/utilities/font/font_palette.dart';
-import 'package:machine_test/presentations/screens/students/student_screen.dart';
 import 'package:machine_test/presentations/widgets/appbar/appbar.dart';
 import 'package:machine_test/presentations/widgets/padding/main_padding.dart';
 import 'package:machine_test/presentations/widgets/snackbars/snackbar.dart';
@@ -65,7 +65,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                 log("Id can change your life ==-=-= ${state.subjectList?[index].id}");
                                 Navigator.pop(context, [
                                   state.subjectList?[index].id,
-                                  state.subjectList?[index].name
+                                  state.subjectList?[index].name,
+                                  state.subjectList?[index].teacher,
                                 ]);
                               } else {
                                 if (state.isStatus == ApiFetchStatus.success) {
