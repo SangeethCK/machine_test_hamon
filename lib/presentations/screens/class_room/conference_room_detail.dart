@@ -14,6 +14,7 @@ import 'package:machine_test/domain/utilities/font/font_palette.dart';
 import 'package:machine_test/presentations/screens/subject/subject_screen.dart';
 import 'package:machine_test/presentations/widgets/appbar/appbar.dart';
 import 'package:machine_test/presentations/widgets/button/common_buttons.dart';
+import 'package:machine_test/presentations/widgets/snackbars/snackbar.dart';
 
 class ConferenceRoomDetailScreen extends StatelessWidget {
   const ConferenceRoomDetailScreen({super.key});
@@ -84,6 +85,10 @@ class ConferenceRoomDetailScreen extends StatelessWidget {
                                               classId:
                                                   state.classDetail?.id ?? 0),
                                         );
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        commonSnackBar(
+                                            message: StringConstant
+                                                .successfullyPdated));
                                   });
                                 }
                               },
