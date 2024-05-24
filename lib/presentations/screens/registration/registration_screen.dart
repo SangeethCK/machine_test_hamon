@@ -60,18 +60,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   ),
                   commonButton(
                       onTap: () async {
-                        final result = await Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return const NewRegisterScreen();
-                        }));
-                        if (result == true) {
-                          context
-                              .read<RegistrationBloc>()
-                              .add(const RegistrationLoaded());
-                        }
                         context
                             .read<ClassRoomBloc>()
                             .add(ClearClassRoomStateEvent());
+
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return const NewRegisterScreen();
+                        }));
                       },
                       title: StringConstant.newRegistration),
                   40.verticalSpace,
@@ -97,6 +93,7 @@ class RegistrationListCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        context.read<RegistrationBloc>().add(ClearRegStateEvent());
         context
             .read<RegistrationBloc>()
             .add(RegistrationDetailEvent(id: data?.id));

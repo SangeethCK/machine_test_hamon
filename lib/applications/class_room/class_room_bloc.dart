@@ -6,6 +6,7 @@ import 'package:machine_test/applications/class_room/class_room_state.dart';
 import 'package:machine_test/domain/models/class_room/update_classroom_subject_request.dart';
 import 'package:machine_test/domain/utilities/enums/api_fetch_status.dart';
 import 'package:machine_test/infrastructure/class_room/class_room_repostory.dart';
+import 'package:machine_test/infrastructure/subject/subject_repository.dart';
 
 part 'class_room_event.dart';
 
@@ -17,6 +18,10 @@ class ClassRoomBloc extends Bloc<ClassRoomEvent, ClassRoomState> {
     on<UpdateSelectedSubjectEvent>(_onUpdateSelectedSubject);
     on<UpdateSelectedStudentEvent>(_onUpdateSelectedStudent);
     on<ClearClassRoomStateEvent>(_onClearClassRoomState);
+    on<ClearSelectedSubjectName>(_onClearSelectedSubjectName);
+    on<ClassRoomSubjectDetail>(_onWhereident);
+
+    // on<ClearSelectedStudentName>(_onClearSelectedStudentName);
   }
 
   //=-=-=-= Students =-=-=-=-=
@@ -79,5 +84,28 @@ class ClassRoomBloc extends Bloc<ClassRoomEvent, ClassRoomState> {
   Future<void> _onClearClassRoomState(
       ClearClassRoomStateEvent event, Emitter<ClassRoomState> emit) async {
     emit(ClassRoomInitial());
+  }
+
+  Future<void> _onClearSelectedSubjectName(
+      ClearSelectedSubjectName event, Emitter<ClassRoomState> emit) async {
+    emit(state.copyWith(selectedSubjectName: ''));
+  }
+
+  // Future<void> _onClearSelectedStudentName(
+  //     ClearSelectedStudentName event, Emitter<ClassRoomState> emit) async {
+  //   emit(state.copyWith(selectedStudentName: null));
+  // }
+
+  Future<void> _onWhereident(
+      ClassRoomSubjectDetail event, Emitter<ClassRoomState> emit) async {
+    try {
+      final subject = await SubjectRepository().loadSubjectList();
+      final data = subject.firstWhere((e) => e.id == state.classDetail?.id);
+      emit(state.copyWith(
+        selectedSubjectName: data.name,
+      ));
+    } catch (e, stackTrace) {
+      log("Error in _onWhereident: $e\n$stackTrace");
+    }
   }
 }

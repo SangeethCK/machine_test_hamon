@@ -6,4 +6,5 @@ class EndPoints {
   static String classRommDetailApi = '/classrooms/';
   static String subjects = 'subjects/';
   static String subjectDetail = '/subjects/';
+  static String registration = '/registration/';
 }

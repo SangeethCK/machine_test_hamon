@@ -50,3 +50,15 @@ class UpdateSelectedStudentEvent extends ClassRoomEvent {
 }
 
 class ClearClassRoomStateEvent extends ClassRoomEvent {}
+
+class ClearSelectedSubjectName extends ClassRoomEvent {}
+
+class ClearSelectedStudentName extends ClassRoomEvent {}
+
+
+class ClassRoomSubjectDetail extends ClassRoomEvent {
+  const ClassRoomSubjectDetail({this.classId});
+  final int? classId;
+  @override
+  List<Object?> get props => [classId];
+}

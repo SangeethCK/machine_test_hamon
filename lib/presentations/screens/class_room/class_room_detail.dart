@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,9 +35,11 @@ class ClassRoomDetailScreen extends StatelessWidget {
                       BlocBuilder<ClassRoomBloc, ClassRoomState>(
                         builder: (context, state) {
                           return CommonLightCard(
-                            title: 'Add Subject',
+                            title: state.classDetail?.subject == ''
+                                ? 'Add Subject'
+                                : state.selectedSubjectName,
                             onTap: () async {
-                              final selectedId = await Navigator.push<int>(
+                              final selectedId = await Navigator.push<List>(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) {
@@ -49,16 +49,26 @@ class ClassRoomDetailScreen extends StatelessWidget {
                                   },
                                 ),
                               );
-                              if (selectedId != null) {
+
+                              if (selectedId != null && selectedId.isNotEmpty) {
                                 context.read<ClassRoomBloc>().add(
-                                    UpdateSubjectEvent(
-                                        updateRequest: UpdateSubjectRequest(
-                                            id: selectedId,
-                                            layout: state.classDetail?.layout,
-                                            name: state.classDetail?.name,
-                                            size: state.classDetail?.size),
-                                        classId: state.classDetail?.id ?? 0));
-                                log("Id =-=-= ---  --  $selectedId");
+                                    UpdateSelectedSubjectEvent(
+                                        selectedId.last, selectedId.first));
+                                WidgetsBinding.instance
+                                    .addPostFrameCallback((_) {
+                                  context.read<ClassRoomBloc>().add(
+                                        UpdateSubjectEvent(
+                                            updateRequest: UpdateSubjectRequest(
+                                                id: state.classDetail?.id,
+                                                layout:
+                                                    state.classDetail?.layout,
+                                                subject: selectedId.first,
+                                                name: state.classDetail?.name,
+                                                size: state.classDetail?.size),
+                                            classId:
+                                                state.classDetail?.id ?? 0),
+                                      );
+                                });
                               }
                             },
                           );

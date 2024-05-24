@@ -3,7 +3,7 @@ class ClassRoomDetailResponse {
   final String? layout;
   final String? name;
   final int? size;
-  final String? subject;
+  var subject;
 
   ClassRoomDetailResponse({
     this.id,
@@ -18,7 +18,7 @@ class ClassRoomDetailResponse {
     String? layout,
     String? name,
     int? size,
-    String? subject,
+    var subject,
   }) =>
       ClassRoomDetailResponse(
         id: id ?? this.id,
@@ -34,7 +34,7 @@ class ClassRoomDetailResponse {
         layout: json["layout"],
         name: json["name"],
         size: json["size"],
-        subject: json["subject"],
+        subject: json["subject"].toString(),
       );
 
   Map<String, dynamic> toJson() => {

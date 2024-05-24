@@ -16,6 +16,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     on<RegistrationLoaded>(_onLoadRegistrtaion);
     on<RegistrationDetailEvent>(_onLoadRegistrtaionDetail);
     on<RegistrationDelete>(_onRegistrationDelete);
+    on<ClearRegStateEvent>(_onClearClassRoomState);
   }
 //=-=-=-=-= Registration Creation =-=-=-==-=
 
@@ -101,5 +102,10 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
         deletionMessage: 'Error deleting registration',
       ));
     }
+  }
+
+  Future<void> _onClearClassRoomState(
+      ClearRegStateEvent event, Emitter<RegistrationState> emit) async {
+    emit(state.copyWith(deletionStatus: DeletionStatus.initial));
   }
 }

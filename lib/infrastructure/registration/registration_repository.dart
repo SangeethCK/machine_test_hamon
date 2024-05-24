@@ -1,15 +1,15 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:machine_test/domain/core/api/interceptor/base_api.dart';
+import 'package:machine_test/domain/core/api/end_point/end_points.dart';
+import 'package:machine_test/domain/core/api/network/base_api.dart';
 import 'package:machine_test/domain/models/registration/registration_detail_response.dart';
 import 'package:machine_test/domain/models/registration/registration_response.dart';
 
 class RegistrationRepository extends BaseApi {
   //=-=-=-=-= Registration List =-=-=-=-=
   Future<List<Registration>> loadRegistration() async {
-    Response response =
-        await get('http://nibrahim.pythonanywhere.com/registration/');
+    Response response = await get(EndPoints.registration);
 
     switch (response.statusCode) {
       case 200:
@@ -21,37 +21,12 @@ class RegistrationRepository extends BaseApi {
     }
   }
 
-  //=-=-=-=-==-= New Registration =-=-=-=-=-==
-
-  // Future<RegistrationResponse> createRegistration(
-  //     int studentId, int subjectId) async {
-  //   try {
-  //     Response response = await NetworkProvider().post(
-  //       'http://nibrahim.pythonanywhere.com/registration/',
-  //       data: {
-  //         "student": studentId,
-  //         "subject": subjectId,
-  //       },
-  //     );
-
-  //     if (response.statusCode == 200) {
-  //       return RegistrationResponse.fromJson(response.data);
-  //     } else {
-  //       log("what${response.data['error']}");
-  //       // If the response status code is not 200, handle the error
-  //       throw Exception(response.data['error'] ?? 'Unknown error');
-  //     }
-  //   } catch (e) {
-  //     // Handle any exceptions that occur during the API call
-  //     throw Exception('Error: $e');
-  //   }
-  // }
-
+  //=-=-=-=-= Creation Registration =-=-=-=-=
   Future<RegistrationResponse> createRegistration(
       int studentId, int subjectId) async {
     try {
       Response response = await post(
-        'http://nibrahim.pythonanywhere.com/registration/',
+        EndPoints.registration,
         data: {
           "student": studentId,
           "subject": subjectId,
@@ -71,10 +46,9 @@ class RegistrationRepository extends BaseApi {
     }
   }
 
-  //=-=-=-=-= Registration List =-=-=-=-=
+  //=-=-=-=-= Registration Detail =-=-=-=-=
   Future<RegistrationDetailsResponse> loadRegistrationDetail(int id) async {
-    Response response =
-        await get("http://nibrahim.pythonanywhere.com/registration/$id");
+    Response response = await get("${EndPoints.registration}/$id");
     switch (response.statusCode) {
       case 200:
         return RegistrationDetailsResponse.fromJson(response.data);
@@ -86,12 +60,10 @@ class RegistrationRepository extends BaseApi {
   //=-=-=-=-= Registration Delete =-=-=-=-=
   Future<String> loadRegistrationDelete(
       {int? id, int? subjectId, int? studentId}) async {
-    Response response = await delete(
-        "http://nibrahim.pythonanywhere.com/registration/$id",
-        data: {
-          "student": studentId,
-          "subject": subjectId,
-        });
+    Response response = await delete("${EndPoints.registration}/$id", data: {
+      "student": studentId,
+      "subject": subjectId,
+    });
     switch (response.statusCode) {
       case 200:
         return response.data['message'];

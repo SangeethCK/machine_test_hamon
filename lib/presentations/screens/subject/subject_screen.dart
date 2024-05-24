@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -61,6 +63,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                           return InkWell(
                             onTap: () {
                               if (widget.isValue == true) {
+                                log("Id can change your life ==-=-= ${state.subjectList?[index].id}");
                                 Navigator.pop(context, [
                                   state.subjectList?[index].id,
                                   state.subjectList?[index].name

@@ -39,3 +39,4 @@ class RegistrationDelete extends RegistrationEvent {
   @override
   List<Object?> get props => [id, studentId, subjectId];
 }
+class ClearRegStateEvent extends RegistrationEvent {}

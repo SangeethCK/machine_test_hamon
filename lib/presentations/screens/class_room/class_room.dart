@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -60,15 +58,19 @@ class _SubjectScreenState extends State<ClassRoomScreen> {
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           final data = state.classRoomList?[index];
-                          log("Layouts${data?.layout}");
                           return InkWell(
                             onTap: () {
                               if (state.isStatus == ApiFetchStatus.success) {
-                                log("Conference ${data?.layout}");
                                 if (data?.layout == 'conference') {
                                   context.read<ClassRoomBloc>().add(
                                       ClassRoomDetailEvent(
                                           classId: data?.id ?? 0));
+                                  context
+                                      .read<ClassRoomBloc>()
+                                      .add(ClearSelectedSubjectName());
+                                  context
+                                      .read<ClassRoomBloc>()
+                                      .add(const ClassRoomSubjectDetail());
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -79,6 +81,12 @@ class _SubjectScreenState extends State<ClassRoomScreen> {
                                   context.read<ClassRoomBloc>().add(
                                       ClassRoomDetailEvent(
                                           classId: data?.id ?? 0));
+                                  context
+                                      .read<ClassRoomBloc>()
+                                      .add(ClearSelectedSubjectName());
+                                  context
+                                      .read<ClassRoomBloc>()
+                                      .add(const ClassRoomSubjectDetail());
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(

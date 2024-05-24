@@ -43,7 +43,9 @@ class ConferenceRoomDetailScreen extends StatelessWidget {
                         BlocBuilder<ClassRoomBloc, ClassRoomState>(
                           builder: (context, state) {
                             return CommonLightCard(
-                              title: 'Add Subject',
+                              title: state.classDetail?.subject == ''
+                                  ? 'Add Subject'
+                                  : state.selectedSubjectName,
                               onTap: () async {
                                 final selectedId = await Navigator.push<List>(
                                   context,
@@ -55,16 +57,30 @@ class ConferenceRoomDetailScreen extends StatelessWidget {
                                     },
                                   ),
                                 );
-                                if (selectedId != null) {
+                                if (selectedId != null &&
+                                    selectedId.isNotEmpty) {
                                   context.read<ClassRoomBloc>().add(
-                                      UpdateSubjectEvent(
-                                          updateRequest: UpdateSubjectRequest(
-                                              id: selectedId.first,
-                                              layout: state.classDetail?.layout,
-                                              name: state.classDetail?.name,
-                                              size: state.classDetail?.size),
-                                          classId: state.classDetail?.id ?? 0));
-                                  log("Id =-=-= ---  --  $selectedId");
+                                      UpdateSelectedSubjectEvent(
+                                          selectedId.last, selectedId.first));
+                                  log('message');
+                                  WidgetsBinding.instance
+                                      .addPostFrameCallback((_) {
+                                    context.read<ClassRoomBloc>().add(
+                                          UpdateSubjectEvent(
+                                              updateRequest:
+                                                  UpdateSubjectRequest(
+                                                      id: state.classDetail?.id,
+                                                      layout: state
+                                                          .classDetail?.layout,
+                                                      subject: selectedId.first,
+                                                      name: state
+                                                          .classDetail?.name,
+                                                      size: state
+                                                          .classDetail?.size),
+                                              classId:
+                                                  state.classDetail?.id ?? 0),
+                                        );
+                                  });
                                 }
                               },
                             );
